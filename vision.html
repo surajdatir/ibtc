@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahyadri — Vision</title>
+  <meta name="description" content="Sahyadri Vision — A global standard for financial sovereignty. Redefining the relationship between mathematics and money." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== EXACT SAME THEME AS INDEX ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-toggle .arrow {
+      display: inline-block;
+      min-width: 20px;
+      text-align: right;
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+
+    /* ========== VISION HEADER ========== */
+    .vision-header {
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+
+    .vision-header h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--orange);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .vision-header h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--text);
+    }
+
+    .vision-header h1 span {
+      color: var(--orange);
+    }
+
+    /* ========== SECTION STYLES ========== */
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-alt {
+      background: var(--bg-alt);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .section-title span {
+      color: var(--orange);
+    }
+
+    .section-text {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    /* ========== VISION TEXT ========== */
+    .vision-text {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .vision-text p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+/* Dropdown Arrow - Default White */
+.dropdown-toggle .arrow {
+  color: white; 
+  transition: none !important;
+  animation: none !important;
+  margin-left: 8px;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+/* Jab dropdown ACTIVE ho tabhi orange */
+.dropdown-toggle.active-toggle .arrow {
+  color: var(--orange) !important;
+}
+
+/* Hover effect sirf text ke liye, arrow nahi */
+.dropdown-toggle:hover {
+  color: var(--orange);
+}
+
+/* Arrow hover pe bhi white hi rahe */
+.dropdown-toggle:hover .arrow {
+  color: white;
+}
+
+/* Active hover mein arrow orange */
+.dropdown-toggle.active-toggle:hover .arrow {
+  color: var(--orange) !important;
+}
+
+    /* ========== VALUES GRID (2x2) ========== */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .value-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 15px;
+      background: var(--orange-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      font-size: 1.8rem;
+    }
+
+    .value-card h3 {
+      color: var(--orange);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .value-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ========== GLOBE SECTION ========== */
+    .globe-section {
+      padding: 40px 0;
+    }
+
+    .globe-container {
+      position: relative;
+      height: 500px;
+      width: 100%;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    }
+
+    #globe-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .globe-overlay {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 12px 20px;
+      border-radius: 40px;
+      border: 1px solid var(--orange);
+      box-shadow: var(--shadow);
+    }
+
+    .globe-overlay span {
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .globe-overlay .orange {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .country-boxes {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 300px;
+      justify-content: flex-end;
+    }
+
+    .country-box {
+      background: rgba(255,255,255,0.9);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid var(--orange);
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--text);
+      backdrop-filter: blur(5px);
+    }
+
+    /* ========== FLYWHEEL (SMALL) ========== */
+   .flywheel-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  animation: rotate 20s linear infinite, darkGlowPulse 3s ease-in-out infinite;
+  box-shadow: 
+    0 0 15px rgba(247,147,26,0.3),
+    inset 0 0 20px rgba(247,147,26,0.2);
+}
+
+@keyframes darkGlowPulse {
+  0% { 
+    box-shadow: 
+      0 0 15px rgba(247,147,26,0.3),
+      inset 0 0 20px rgba(247,147,26,0.2);
+    border-color: var(--orange);
+  }
+  50% { 
+    box-shadow: 
+      0 0 30px rgba(247,147,26,0.6),    /* बहुत ज्यादा नहीं */
+      inset 0 0 40px rgba(247,147,26,0.4);
+    border-color: #ff9933;
+  }
+  100% { 
+    box-shadow: 
+      0 0 15px rgba(247,147,26,0.3),
+      inset 0 0 20px rgba(247,147,26,0.2);
+    border-color: var(--orange);
+  }
+}
+
+.flywheel-energy {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, 
+    rgba(247,147,26,0.15) 0%,
+    rgba(247,147,26,0.05) 40%,
+    transparent 70%);
+  border-radius: 50%;
+  animation: darkEnergyPulse 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes darkEnergyPulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 0.3;
+    background: radial-gradient(circle, 
+      rgba(247,147,26,0.15) 0%,
+      rgba(247,147,26,0.05) 40%,
+      transparent 70%);
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.15); 
+    opacity: 0.6;
+    background: radial-gradient(circle, 
+      rgba(247,147,26,0.25) 0%,
+      rgba(247,147,26,0.1) 40%,
+      transparent 70%);
+  }
+}
+ .flywheel-container {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      margin: 30px auto;
+    }
+
+    .flywheel-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: 280px;
+      border: 2px dashed var(--orange);
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+      opacity: 0.4;
+    }
+
+    .flywheel-items {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .flywheel-item {
+      position: absolute;
+      width: 80px;
+      text-align: center;
+      background: white;
+      padding: 4px 4px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .flywheel-item:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    .flywheel-item:nth-child(1) { 
+      top: 50; 
+      left: 0%; 
+      transform: translate(-20%, 40%);
+    }
+    .flywheel-item:nth-child(2) { 
+      top: 50%; 
+      right: 0; 
+      transform: translate(50%, -50%);
+    }
+    .flywheel-item:nth-child(3) { 
+      bottom: 0; 
+      left: 40%; 
+      transform: translate(-50%, 20%);
+    }
+
+    .flywheel-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--orange-light);
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      margin: 0 auto 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--orange);
+    }
+
+    .flywheel-item h4 {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.1rem;
+      margin-bottom: 0px;
+    }
+
+    .flywheel-item p {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .flywheel-energy {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(247,147,26,0.15), transparent);
+      border-radius: 50%;
+      animation: pulse 3s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+    }
+
+    /* ========== MANIFESTO ========== */
+    .manifesto-section {
+      padding: 60px 0;
+      background: var(--bg-alt);
+    }
+
+    .manifesto-text {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 1500px;
+      margin: 0 auto;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .manifesto-text span {
+      color: var(--orange);
+    }
+
+    .manifesto-glow {
+      animation: textGlow linear forwards;
+      animation-timeline: view();
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 0px var(--black); }
+      50% { text-shadow: 0 0 15px var(--black); }
+      100% { text-shadow: 0 0 0px var(--orange); }
+    }
+
+    /* ========== TRANSITION MODULE ========== */
+    .transition-section {
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .transition-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--orange);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav {
+        display: none;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .values-grid {
+        max-width: 500px;
+      }
+      
+      .flywheel-container {
+        width: 300px;
+        height: 300px;
+      }
+      
+      .flywheel-circle {
+        width: 240px;
+        height: 240px;
+      }
+      
+      .flywheel-item {
+        width: 90px;
+      }
+      
+      .footer-col {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .vision-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .values-grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+      }
+      
+      .manifesto-text {
+        font-size: 1.5rem;
+      }
+      
+      .flywheel-container {
+        width: 250px;
+        height: 250px;
+      }
+      
+      .flywheel-circle {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .flywheel-item {
+        width: 80px;
+        padding: 8px;
+      }
+      
+      .flywheel-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+      }
+      
+      .flywheel-item h4 {
+        font-size: 0.8rem;
+      }
+      
+      .flywheel-item p {
+        font-size: 0.65rem;
+      }
+      
+      .footer-col {
+        flex: 0 0 100%;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .transition-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .mobile-menu {
+        padding: 80px 20px 40px;
+      }
+      
+      .country-boxes {
+        position: static;
+        margin-top: 20px;
+        justify-content: center;
+      }
+      
+      .globe-overlay {
+        position: static;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+    }
+/* ========== Our Values & Core ========== */
+/* 1. MAIN LAYOUT */
+.sahyadri-section { width: 100%; padding: 80px 0; background: #ffffff; overflow: hidden; box-sizing: border-box; }
+.sahyadri-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+.header-box { text-align: center; margin-bottom: 50px; }
+.section-title { font-size: 2.2rem; font-weight: 800; color: #111; margin: 0; font-family: sans-serif; }
+.section-title span { color: #F7931A; }
+.section-text { color: #6b7a8f; margin-top: 10px; font-size: 1rem; font-family: sans-serif; }
+
+/* 2. GRID */
+.sahyadri-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* 3. CARD DESIGN */
+.s-card {
+  background: #fff; border: 1px solid #eaeef2; border-radius: 20px;
+  padding: 30px 20px; text-align: center; transition: all 0.3s ease;
+  display: flex; flex-direction: column; align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.s-card:hover { transform: translateY(-8px); border-color: #F7931A; box-shadow: 0 15px 30px rgba(247,147,26,0.1); }
+.s-visual { height: 60px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; position: relative; }
+.v-title { font-size: 1.15rem; font-weight: 800; color: #111; margin-bottom: 12px; font-family: sans-serif; }
+.v-desc { font-size: 0.9rem; color: #556172; line-height: 1.5; margin: 0; font-family: sans-serif; }
+
+/* 4. ALL ANIMATIONS */
+.v-growth { width: 25px; height: 25px; border: 3px solid #F7931A; animation: vRot 4s infinite linear; }
+@keyframes vRot { 0% { transform: scale(1) rotate(0); } 50% { transform: scale(1.1) rotate(90deg); } 100% { transform: scale(1) rotate(180deg); } }
+
+.v-shield-solid { width: 30px; height: 35px; background: rgba(247,147,26,0.1); border: 3px solid #F7931A; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+
+.v-community { display: flex; align-items: flex-end; gap: 4px; height: 25px; }
+.v-community span { width: 8px; background: #F7931A; border-radius: 2px 2px 0 0; animation: vJump 2s infinite ease-in-out; }
+.v-community span:nth-child(2) { height: 20px; animation-delay: 0.2s; }
+.v-community span:nth-child(3) { height: 15px; animation-delay: 0.4s; }
+@keyframes vJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.v-lock { width: 20px; height: 15px; border: 3px solid #F7931A; border-radius: 2px; position: relative; margin-top: 10px; }
+.v-lock::before { content: ''; position: absolute; width: 12px; height: 12px; border: 3px solid #F7931A; border-bottom: none; border-radius: 10px 10px 0 0; top: -15px; left: 1px; }
+
+.v-network-nodes span { display: inline-block; width: 10px; height: 10px; background: #F7931A; border-radius: 50%; margin: 0 4px; animation: vPulse 1.5s infinite alternate; }
+@keyframes vPulse { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
+
+.v-mesh { width: 30px; height: 30px; border: 2px dashed #F7931A; border-radius: 50%; animation: vSpin 4s infinite linear; }
+@keyframes vSpin { to { transform: rotate(360deg); } }
+
+.v-trust { width: 30px; height: 30px; border: 3px solid #F7931A; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.v-trust::after { content: '✓'; color: #F7931A; font-weight: 900; font-size: 18px; }
+
+.v-sustain { width: 25px; height: 25px; border: 3px solid #F7931A; border-radius: 50% 0 50% 0; }
+.v-storage span { display: block; width: 25px; height: 4px; background: #F7931A; margin: 3px; }
+.v-compute { width: 25px; height: 25px; border: 3px solid #F7931A; position: relative; }
+.v-compute::before { content:''; position: absolute; width: 100%; height: 2px; background: #F7931A; top: 50%; left: 0; }
+.v-finality { width: 25px; height: 25px; border: 3px solid #F7931A; border-radius: 50%; border-right-color: transparent; animation: vSpin 1s infinite linear; }
+.v-sovereign { width: 20px; height: 20px; background: #F7931A; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+
+/* SCALABILITY FIX */
+.v-scale { display: flex; align-items: flex-end; gap: 4px; height: 30px; }
+.v-scale span { width: 7px; background: #F7931A; border-radius: 1px; animation: vRange 1s infinite alternate; }
+.v-scale span:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+.v-scale span:nth-child(2) { height: 20px; animation-delay: 0.3s; }
+.v-scale span:nth-child(3) { height: 30px; animation-delay: 0.5s; }
+@keyframes vRange { from { transform: scaleY(0.6); opacity: 0.5; } to { transform: scaleY(1.1); opacity: 1; } }
+
+.v-innovation { width: 20px; height: 20px; border: 3px solid #F7931A; transform: rotate(45deg); }
+
+/* FLASH & CROSS-CHAIN */
+.v-flash { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 25px solid #F7931A; animation: vFlashZap 0.8s infinite alternate; }
+@keyframes vFlashZap { from { opacity: 1; transform: scale(1); } to { opacity: 0.4; transform: scale(1.2); } }
+
+.v-crosschain { display: flex; gap: 10px; position: relative; align-items: center; }
+.v-crosschain span { width: 12px; height: 12px; border: 2px solid #F7931A; border-radius: 50%; }
+.v-crosschain::before { content: ''; position: absolute; width: 35px; height: 2px; background: #F7931A; top: 50%; left: 0; animation: vLink 2s infinite; transform-origin: left; }
+@keyframes vLink { 0%, 100% { transform: scaleX(0); } 50% { transform: scaleX(1); } }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .sahyadri-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .sahyadri-grid { grid-template-columns: 1fr; } }
+</style>
+
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri Vision</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html" class="active">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html" class="nav-cta">Devs</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+
+    <div class="normal-links" style="margin-bottom: 20px;">
+      <a href="index.html">Home</a>
+    </div>
+
+  <!-- INTRODUCTION Dropdown -->
+<div class="mobile-nav-section">
+  <div class="mobile-nav-title">INTRODUCTION</div>
+  <div class="dropdown">
+    <button class="dropdown-toggle" id="introToggle">
+      Introduction
+      <span class="arrow">▼</span>
+    </button>
+    <div class="dropdown-menu" id="introMenu">
+      <a href="individuals.html">Individuals</a>
+      <a href="businesses.html">Businesses</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="whitepaper.html">White paper</a>
+    </div>
+  </div>
+</div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CHAIN</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="chainToggle">
+          Chain <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="chainMenu">
+          <a href="protocol.html">Protocol</a>
+          <a href="vision.html" class="active">Vision</a>
+          <a href="network.html">Network</a>
+          <a href="core.html">Core</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">RESOURCES</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="resourcesToggle">
+          Resources <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="resourcesMenu">
+          <a href="exchanges.html">Exchanges</a>
+          <a href="community.html">Community</a>
+          <a href="documentation.html">Documentation</a>
+          <a href="vocabulary.html">Vocabulary</a>
+          <a href="events.html">Events</a>
+          <a href="core.html">Sahyadri Core</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INNOVATION</div>
+      <div class="normal-links">
+        <a href="innovation.html">Innovation</a>
+        <a href="participate.html">Participate</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CONNECT</div>
+      <div class="normal-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html">Developers</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- VISION HEADER -->
+    <div class="container">
+      <div class="vision-header animate">
+        <h2>OUR VISION</h2>
+        <h1>The Future <span>We're Building</span></h1>
+      </div>
+    </div>
+
+    <!-- VISION TEXT -->
+    <div class="container">
+      <div class="vision-text animate delay-1">
+        <p>We envision a future where digital assets are as stable and trustworthy as traditional financial instruments, but with the added benefits of decentralization and transparency. Sahyadri is pioneering the next generation of blockchain-native financial infrastructure that bridges traditional finance with decentralized systems.</p>
+        <p>To become one of the most trusted blockchain-based digital asset platforms globally, empowering individuals and enterprises to confidently participate in the evolving blockchain economy. Our vision is to build transparent, secure, and scalable on-chain systems that support long-term value creation through innovation, technology, and decentralized infrastructure.</p>
+        <p>We aim to become one of the world's most trusted blockchain-based digital asset platforms, enabling individuals, institutions, and enterprises to participate in the digital economy with confidence. By combining cryptographic security, scalable architecture, and transparent reserve mechanisms, Sahyadri is committed to redefining how value is stored, transferred, and secured in a decentralized world. Our long-term vision is to power a sustainable, permissionless financial layer that supports innovation, economic inclusion, and long-term value creation through resilient decentralized infrastructure.</p>
+      </div>
+    </div>
+
+<section class="sahyadri-section">
+  <div class="sahyadri-container">
+    <div class="header-box">
+      <h2 class="section-title">Our <span>Values & Core</span></h2>
+      <p class="section-text">The 16 pillars of the Sahyadri ecosystem.</p>
+    </div>
+
+    <div class="sahyadri-grid">
+      <div class="s-card">
+        <div class="s-visual"><div class="v-growth"></div></div>
+        <h3 class="v-title">Scalable Growth</h3>
+        <p class="v-desc">Handles massive traffic without slowing down or increasing fees.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-shield-solid"></div></div>
+        <h3 class="v-title">Military Grade</h3>
+        <p class="v-desc">Top-tier protection ensuring assets are safe from any digital threat.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-community"><span></span><span></span><span></span></div></div>
+        <h3 class="v-title">Unified Community</h3>
+        <p class="v-desc">A decentralized movement governed by the people, for the people.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-lock"></div></div>
+        <h3 class="v-title">Security</h3>
+        <p class="v-desc">Multi-layer defense with ASIC-resistant PoW and DDoS protection.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-network-nodes"><span></span><span></span><span></span></div></div>
+        <h3 class="v-title">Network</h3>
+        <p class="v-desc">Parallel execution and high-performance data propagation.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-mesh"></div></div>
+        <h3 class="v-title">Global Mesh</h3>
+        <p class="v-desc">Seamless connectivity across every node in the ecosystem.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-trust"></div></div>
+        <h3 class="v-title">Trust</h3>
+        <p class="v-desc">Built on transparency, open-source code, and math certainty.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-sustain"></div></div>
+        <h3 class="v-title">Sustainability</h3>
+        <p class="v-desc">Energy-efficient systems designed for long-term resilience.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-storage"><span></span><span></span><span></span></div></div>
+        <h3 class="v-title">Storage</h3>
+        <p class="v-desc">Immutable ledger with distributed archival and verification.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-compute"></div></div>
+        <h3 class="v-title">Compute</h3>
+        <p class="v-desc">High-performance processing for complex smart contracts.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-finality"></div></div>
+        <h3 class="v-title">Finality</h3>
+        <p class="v-desc">Instant 1-second block confirmation for rapid transactions.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-sovereign"></div></div>
+        <h3 class="v-title">Sovereignty</h3>
+        <p class="v-desc">Absolute ownership of your data without middlemen.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual">
+          <div class="v-scale"><span></span><span></span><span></span></div>
+        </div>
+        <h3 class="v-title">Scalability</h3>
+        <p class="v-desc">Unlimited throughput capacity as the network expands.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-innovation"></div></div>
+        <h3 class="v-title">Innovation</h3>
+        <p class="v-desc">Pushing the boundaries of Sahyadri Core research.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-flash"></div></div>
+        <h3 class="v-title">Flash Settlement</h3>
+        <p class="v-desc">Ultra-fast transaction clearing with near-zero latency.</p>
+      </div>
+
+      <div class="s-card">
+        <div class="s-visual"><div class="v-crosschain"><span></span><span></span></div></div>
+        <h3 class="v-title">Cross-Chain Native</h3>
+        <p class="v-desc">Interoperability built into the core for asset transfers.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- GLOBAL PULSE GLOBE -->
+    <section class="globe-section">
+      <div class="container">
+        <h2 class="section-title">Global <span>Network</span></h2>
+        <p class="section-text">Secured by a decentralized community across the world</p>
+        <div class="globe-container">
+          <div id="globe-canvas"></div>
+          <div class="globe-overlay">
+            <span>Network Pulse: </span>
+            <span class="orange">1.0s Finality</span>
+          </div>
+          <div class="country-boxes">
+            <span class="country-box">🇮🇳 India</span>
+            <span class="country-box">🇦🇪 UAE</span>
+            <span class="country-box">🇬🇧 UK</span>
+            <span class="country-box">🇦🇺 Australia</span>
+            <span class="country-box">🇯🇵 Japan</span>
+            <span class="country-box">🇨🇳 China</span>
+            <span class="country-box">🇷🇺 Russia</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSENSUS FLYWHEEL (SMALL) -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">The Consensus <span>Flywheel</span></h2>
+        <p class="section-text">Mathematical Self-Governance — a self-sustaining ecosystem</p>
+<p class="section-text">The Consensus Flywheel is the core mechanism that keeps the Sahyadri network alive, fair, and self-governing — without politics, committees, or human control.
+
+Instead of trust, votes, or power structures, the network relies purely on mathematics, energy, and open participation.
+
+Once started, the system sustains itself.
+</p>
+        <div class="flywheel-container">
+          <div class="flywheel-circle"></div>
+          <div class="flywheel-energy"></div>
+          <div class="flywheel-items">
+            <div class="flywheel-item">
+              <div class="flywheel-icon">⛏️</div>
+              <h4>Mining</h4>
+              <p>PoW</p>
+            </div>
+            <div class="flywheel-item">
+              <div class="flywheel-icon">✓</div>
+              <h4>Validation</h4>
+              <p>Block-DAG</p>
+            </div>
+            <div class="flywheel-item">
+              <div class="flywheel-icon">⚡</div>
+              <h4>Finality</h4>
+              <p>1 Second</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE MANIFESTO -->
+    <section class="manifesto-section">
+      <div class="container">
+        <p class="manifesto-text manifesto-glow">
+          "Sahyadri belongs to <span>no one</span>. It is a <span>public utility</span>. Like the air we breathe or the math we use, it is a <span>foundation for a free society</span>."
+        </p>
+      </div>
+    </section>
+
+    <!-- TRANSITION MODULE -->
+    <section class="transition-section">
+      <div class="container">
+        <h2 class="section-title">From Vision to <span>Reality</span></h2>
+        <p class="section-text">Join us in building the future of financial sovereignty.</p>
+        <div class="transition-buttons">
+          <a href="roadmap.html" class="btn-primary">Explore the Roadmap</a>
+          <a href="whitepaper.html" class="btn-secondary">Read the Whitepaper</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Introduction -->
+        <div class="footer-col">
+          <h4 class="footer-title">Introduction</h4>
+          <ul class="footer-links">
+            <li><a href="individuals.html">Individuals</a></li>
+            <li><a href="businesses.html">Businesses</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="you-need-to-know.html">You need to know</a></li>
+            <li><a href="whitepaper.html">White paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Resources -->
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="exchanges.html">Exchanges</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="vocabulary.html">Vocabulary</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="core.html">Sahyadri Core</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Participate -->
+        <div class="footer-col">
+          <h4 class="footer-title">Participate</h4>
+          <ul class="footer-links">
+            <li><a href="support-sahyadri.html">Support Sahyadri</a></li>
+            <li><a href="buy.html">Buy Sahyadri</a></li>
+            <li><a href="sell.html">Sell Sahyadri</a></li>
+            <li><a href="full-node.html">Running a full node</a></li>
+            <li><a href="development.html">Development</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Other -->
+        <div class="footer-col">
+          <h4 class="footer-title">Other</h4>
+          <ul class="footer-links">
+            <li><a href="avoid-scams.html">Avoid Scams</a></li>
+            <li><a href="legal.html">Legal</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="about.html">About Sahyadri.org</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a>
+          <a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a>
+          <a href="https://github.com/sahyadri-core" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js Libraries -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+
+    // Mobile menu functionality
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const closeMobile = document.getElementById('closeMobile');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+   // Dropdown functionality - Perfect Arrow Behavior
+const introToggle = document.getElementById('introToggle');
+const introMenu = document.getElementById('introMenu');
+const chainToggle = document.getElementById('chainToggle');
+const chainMenu = document.getElementById('chainMenu');
+const resourcesToggle = document.getElementById('resourcesToggle');
+const resourcesMenu = document.getElementById('resourcesMenu');
+
+function closeAllDropdowns() {
+  introMenu.classList.remove('open');
+  chainMenu.classList.remove('open');
+  resourcesMenu.classList.remove('open');
+  
+  introToggle.classList.remove('active-toggle');
+  chainToggle.classList.remove('active-toggle');
+  resourcesToggle.classList.remove('active-toggle');
+}
+
+function handleToggle(toggleElement, menuElement) {
+  toggleElement.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isOpen = menuElement.classList.contains('open');
+    
+    closeAllDropdowns();
+    
+    if (!isOpen) {
+      menuElement.classList.add('open');
+      toggleElement.classList.add('active-toggle');
+    }
+  });
+}
+
+handleToggle(introToggle, introMenu);
+handleToggle(chainToggle, chainMenu);
+handleToggle(resourcesToggle, resourcesMenu);
+
+    // Globe Animation
+    const globeContainer = document.getElementById('globe-canvas');
+    if (globeContainer) {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0a0a0a);
+      
+      const camera = new THREE.PerspectiveCamera(45, globeContainer.clientWidth / globeContainer.clientHeight, 0.1, 1000);
+      camera.position.set(0, 0, 4);
+      
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setSize(globeContainer.clientWidth, globeContainer.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      globeContainer.appendChild(renderer.domElement);
+      
+      // Controls
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 1.5;
+      controls.enableZoom = false;
+      controls.enablePan = false;
+      
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x404060);
+      scene.add(ambientLight);
+      
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+      dirLight.position.set(1, 1, 1);
+      scene.add(dirLight);
+      
+      const backLight = new THREE.PointLight(0xF7931A, 0.5);
+      backLight.position.set(-1, -1, -1);
+      scene.add(backLight);
+      
+      // Create Globe
+      const globeGeometry = new THREE.SphereGeometry(1.5, 64, 64);
+      
+      // Load world map texture
+      const textureLoader = new THREE.TextureLoader();
+      const worldMapTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+      
+      const globeMaterial = new THREE.MeshPhongMaterial({
+        map: worldMapTexture,
+        shininess: 30,
+        emissive: new THREE.Color(0x111111)
+      });
+      const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+      scene.add(globe);
+      
+      // Add orange grid lines
+      const gridMaterial = new THREE.LineBasicMaterial({ color: 0xF7931A, opacity: 0.5, transparent: true });
+      
+      for (let i = 0; i <= 12; i++) {
+        const lat = (i / 12) * Math.PI - Math.PI / 2;
+        const points = [];
+        for (let j = 0; j <= 36; j++) {
+          const lon = (j / 36) * Math.PI * 2;
+          const x = 1.51 * Math.cos(lat) * Math.cos(lon);
+          const y = 1.51 * Math.sin(lat);
+          const z = 1.51 * Math.cos(lat) * Math.sin(lon);
+          points.push(new THREE.Vector3(x, y, z));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, gridMaterial);
+        scene.add(line);
+      }
+      
+      for (let i = 0; i <= 24; i++) {
+        const lon = (i / 24) * Math.PI * 2;
+        const points = [];
+        for (let j = 0; j <= 18; j++) {
+          const lat = (j / 18) * Math.PI - Math.PI / 2;
+          const x = 1.51 * Math.cos(lat) * Math.cos(lon);
+          const y = 1.51 * Math.sin(lat);
+          const z = 1.51 * Math.cos(lat) * Math.sin(lon);
+          points.push(new THREE.Vector3(x, y, z));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, gridMaterial);
+        scene.add(line);
+      }
+      
+      // Pulse points
+      const pulsePoints = [];
+      const pulseGeometry = new THREE.BufferGeometry();
+      const pulseMaterial = new THREE.PointsMaterial({
+        color: 0xF7931A,
+        size: 0.15,
+        transparent: true,
+        blending: THREE.AdditiveBlending
+      });
+      
+      for (let i = 0; i < 50; i++) {
+        const lat = (Math.random() * 2 - 1) * Math.PI / 2;
+        const lon = Math.random() * Math.PI * 2;
+        const x = 1.52 * Math.cos(lat) * Math.cos(lon);
+        const y = 1.52 * Math.sin(lat);
+        const z = 1.52 * Math.cos(lat) * Math.sin(lon);
+        pulsePoints.push(x, y, z);
+      }
+      
+      pulseGeometry.setAttribute('position', new THREE.Float32BufferAttribute(pulsePoints, 3));
+      const pulseSystem = new THREE.Points(pulseGeometry, pulseMaterial);
+      scene.add(pulseSystem);
+      
+      // Animation
+      function animate() {
+        requestAnimationFrame(animate);
+        
+        controls.update();
+        
+        const time = Date.now() * 0.001;
+        pulseSystem.material.size = 0.15 + Math.sin(time * 5) * 0.08;
+        
+        renderer.render(scene, camera);
+      }
+      
+      animate();
+      
+      window.addEventListener('resize', () => {
+        camera.aspect = globeContainer.clientWidth / globeContainer.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(globeContainer.clientWidth, globeContainer.clientHeight);
+      });
+    }
+  </script>
+</body>
+</html>

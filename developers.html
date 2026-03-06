@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Sahyadri — Developers: Build on a rule-based protocol</title>
+  <meta name="description" content="Develop on Sahyadri – deterministic finality, fixed economic rules, verifiable state. Integrate wallets, L2 protocols, explorers." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & VARIABLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav { display: none; }
+      .nav-toggle { display: block; }
+      .mobile-menu { padding: 80px 20px 40px; }
+      .footer-grid { gap: 30px; }
+      .footer-col { flex: 0 0 calc(50% - 15px); }
+    }
+
+    @media (max-width: 600px) {
+      .footer-col { flex: 0 0 100%; }
+      .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+      .footer-social { justify-content: center; }
+    }
+
+    /* ========== DEVELOPERS PAGE STYLES ========== */
+    .dev-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px 3rem;
+    }
+
+    section {
+      padding: 70px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .animate-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    .hero-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 2.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Palatino', serif;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 550px;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      border-left: 6px solid var(--orange);
+      padding-left: 1.2rem;
+    }
+
+    .section-text {
+      font-family: 'Palatino', serif;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+      margin-bottom: 2rem;
+      max-width: 750px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--orange-dark);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    /* ===== 3D VISUAL MODULES (minimal, credible, dark) ===== */
+    .vis-module {
+      width: 100%;
+      min-height: 260px;
+      background: #0b1017;
+      border-radius: 40px;
+      margin: 2rem 0 1rem;
+      box-shadow: 0 30px 40px -20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(247,147,26,0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Hero: protocol core with API endpoints */
+    .protocol-core {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      width: 100%;
+      justify-content: center;
+    }
+    .core-box {
+      width: 120px;
+      height: 120px;
+      background: rgba(247,147,26,0.15);
+      border: 2px solid #F7931A;
+      border-radius: 20px;
+      animation: corePulse 6s infinite;
+    }
+    .endpoint-line {
+      width: 80px;
+      height: 2px;
+      background: #F7931A;
+      position: relative;
+    }
+    .endpoint-line::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #F7931A;
+      border-top: 2px solid #F7931A;
+      transform: rotate(45deg);
+    }
+    .data-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .flow-packet {
+      width: 60px;
+      height: 20px;
+      background: rgba(247,147,26,0.2);
+      border: 1px solid #F7931A;
+      border-radius: 4px;
+      animation: flowMove 4s infinite;
+    }
+    @keyframes flowMove { 0% { transform: translateX(-10px); opacity: 0.2; } 50% { transform: translateX(10px); opacity: 0.8; } }
+
+    /* What You Can Build - modules */
+    .modules-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .module-block {
+      width: 120px;
+      height: 80px;
+      background: #1a2632;
+      border: 2px solid #F7931A;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .core-stable {
+      width: 100px;
+      height: 100px;
+      background: rgba(247,147,26,0.2);
+      border: 3px solid #F7931A;
+      border-radius: 20px;
+    }
+
+    /* Interfaces - verification pipeline */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .pipe-stage {
+      width: 100px;
+      height: 60px;
+      border: 2px solid #F7931A;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-size: 0.8rem;
+    }
+    .pipe-arrow {
+      color: #F7931A;
+      font-size: 1.5rem;
+    }
+
+    /* Local development - laptop + nodes */
+    .dev-setup {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .laptop {
+      width: 120px;
+      height: 80px;
+      background: #2a3440;
+      border-radius: 10px 10px 0 0;
+      position: relative;
+      border-bottom: 20px solid #1e2a3a;
+    }
+    .node-cluster {
+      display: flex;
+      gap: 15px;
+    }
+    .node-small {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #F7931A;
+      border-radius: 50%;
+    }
+
+    /* Design principles - three shapes */
+    .principles {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+    .principle {
+      width: 85px;
+      height: 100px;
+      border: 3px solid #F7931A;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-weight: 600;
+        font-size: clamp(0rem, 3.4vw, 8.2rem)
+    }
+
+    /* Contribute - code grid */
+    .code-grid {
+      width: 100%;
+      height: 150px;
+      background-image: linear-gradient(45deg, #F7931A20 2px, transparent 2px);
+      background-size: 30px 30px;
+      animation: gridShift 10s infinite linear;
+    }
+    @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
+
+    /* Hero grid */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    /* bullet lists */
+    .bullet-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+    .bullet-list li {
+      font-family: 'Palatino', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      padding-left: 1.8rem;
+      position: relative;
+    }
+    .bullet-list li::before {
+      content: "◈";
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="getting-started.html">Get Started</a>
+        <a href="you-need-to-know.html">You Need to Know</a>
+        <a href="documentation.html">Documentation</a>
+        <a href="developers.html" class="active">Developers</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile overlay & menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+    <div class="normal-links" style="margin-bottom:20px"><a href="index.html">Home</a></div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">Introduction <span class="arrow">▼</span></button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CHAIN</div><div class="dropdown"><button class="dropdown-toggle" id="chainToggle">Chain <span class="arrow">▼</span></button><div class="dropdown-menu" id="chainMenu"><a href="protocol.html">Protocol</a><a href="vision.html">Vision</a><a href="network.html">Network</a><a href="core.html">Core</a><a href="roadmap.html">Roadmap</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">RESOURCES</div><div class="dropdown"><button class="dropdown-toggle" id="resourcesToggle">Resources <span class="arrow">▼</span></button><div class="dropdown-menu" id="resourcesMenu"><a href="exchanges.html">Exchanges</a><a href="community.html">Community</a><a href="documentation.html">Documentation</a><a href="vocabulary.html">Vocabulary</a><a href="events.html">Events</a><a href="core.html">Sahyadri Core</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">INNOVATION</div><div class="normal-links"><a href="innovation.html">Innovation</a><a href="participate.html">Participate</a><a href="faq.html">FAQ</a></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CONNECT</div><div class="normal-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="developers.html">Developers</a></div></div>
+  </div>
+
+  <!-- MAIN: DEVELOPERS CONTENT -->
+  <main class="dev-container">
+    <!-- 1. Hero Section -->
+    <section style="padding-top: 40px;">
+      <div class="hero-grid">
+        <div class="animate-up visible">
+          <h1 class="hero-title">Sahyadri Developers</h1>
+          <p class="hero-subtitle">Build on a deterministic, rule-based protocol designed for secure value transfer and settlement.</p>
+          <p class="section-text">Sahyadri exposes a minimal, predictable core for developers who value correctness, finality, and long-term stability over rapid experimentation.</p>
+        </div>
+        <div class="vis-module animate-up delay-1">
+          <div class="protocol-core">
+            <div class="core-box"></div>
+            <div class="endpoint-line"></div>
+            <div class="data-flow">
+              <div class="flow-packet"></div>
+              <div class="flow-packet"></div>
+              <div class="flow-packet"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. What You Can Build -->
+    <section>
+      <h2 class="section-title animate-up">What You Can Build</h2>
+      <p class="section-text animate-up delay-1">Developers can integrate Sahyadri at the protocol edge or build infrastructure around it:</p>
+      <ul class="bullet-list animate-up delay-1">
+        <li>Wallets and payment systems</li>
+        <li>Settlement layers and accounting backends</li>
+        <li>Layer-2 protocols and bridges</li>
+        <li>Explorers and analytics tools</li>
+      </ul>
+      <p class="section-text animate-up delay-2">Sahyadri intentionally avoids mutable global state and discretionary logic, making integrations simpler and more reliable.</p>
+      <div class="vis-module animate-up delay-3">
+        <div style="display: flex; align-items: center; gap: 40px;">
+          <div class="modules-grid">
+            <div class="module-block">Wallets</div>
+            <div class="module-block">Payments</div>
+            <div class="module-block">L2</div>
+            <div class="module-block">Explorers</div>
+          </div>
+          <div class="core-stable"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Interfaces & Access -->
+    <section>
+      <h2 class="section-title animate-up">Interfaces & Access</h2>
+      <p class="section-text animate-up delay-1">Sahyadri provides deterministic interfaces for:</p>
+      <ul class="bullet-list animate-up delay-1">
+        <li>Submitting transactions</li>
+        <li>Querying finalized blocks</li>
+        <li>Inspecting state and proofs</li>
+        <li>Verifying inclusion and finality</li>
+      </ul>
+      <p class="section-text animate-up delay-2">All interfaces reflect protocol state exactly as finalized by consensus.</p>
+      <div class="vis-module animate-up delay-3">
+        <div class="pipeline">
+          <div class="pipe-stage">Submit</div>
+          <span class="pipe-arrow">→</span>
+          <div class="pipe-stage">Verify</div>
+          <span class="pipe-arrow">→</span>
+          <div class="pipe-stage">Finalize</div>
+          <span class="pipe-arrow">→</span>
+          <div class="pipe-stage">Response</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Local Development & Nodes -->
+    <section>
+      <h2 class="section-title animate-up">Local Development & Nodes</h2>
+      <p class="section-text animate-up delay-1">Developers can run local nodes to test integrations and verify behavior. No API key, identity, or permission is required.</p>
+      <p class="section-text animate-up delay-2">Supported modes include: Full node, Pruned node, Light client.</p>
+      <div class="vis-module animate-up delay-3">
+        <div class="dev-setup">
+          <div class="laptop"></div>
+          <div class="node-cluster">
+            <div class="node-small"></div>
+            <div class="node-small"></div>
+            <div class="node-small"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Design Principles -->
+    <section>
+      <h2 class="section-title animate-up">Design Principles</h2>
+      <p class="section-text animate-up delay-1">Sahyadri is built around three developer guarantees:</p>
+      <ul class="bullet-list animate-up delay-1">
+        <li>Deterministic finality</li>
+        <li>Fixed economic rules</li>
+        <li>Verifiable state transitions</li>
+      </ul>
+      <p class="section-text animate-up delay-2">If behavior is not specified by the protocol, it does not exist.</p>
+      <div class="vis-module animate-up delay-3">
+        <div class="principles">
+          <div class="principle">Finality</div>
+          <div class="principle">Rules</div>
+          <div class="principle">Verification</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Contribute -->
+    <section>
+      <h2 class="section-title animate-up">Contribute</h2>
+      <p class="section-text animate-up delay-1">Sahyadri is open-source and protocol-first. Contributions are welcome where they improve correctness, security, or clarity.</p>
+   
+      </div>
+    </section>
+
+    <!-- 7. Bottom CTA -->
+    <section style="border-bottom: none;">
+      <h2 class="section-title animate-up">Build systems that rely on rules — not trust.</h2>
+  
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4 class="footer-title">Introduction</h4><ul class="footer-links"><li><a href="individuals.html">Individuals</a></li><li><a href="businesses.html">Businesses</a></li><li><a href="developers.html">Developers</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="you-need-to-know.html">You need to know</a></li><li><a href="whitepaper.html">Whitepaper</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Resources</h4><ul class="footer-links"><li><a href="resources.html">Resources</a></li><li><a href="exchanges.html">Exchanges</a></li><li><a href="community.html">Community</a></li><li><a href="vocabulary.html">Vocabulary</a></li><li><a href="events.html">Events</a></li><li><a href="core.html">Sahyadri Core</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Participate</h4><ul class="footer-links"><li><a href="support-sahyadri.html">Support Sahyadri</a></li><li><a href="buy.html">Buy Sahyadri</a></li><li><a href="sell.html">Sell Sahyadri</a></li><li><a href="full-node.html">Running a full node</a></li><li><a href="development.html">Development</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Other</h4><ul class="footer-links"><li><a href="avoid-scams.html">Avoid Scams</a></li><li><a href="legal.html">Legal</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="press.html">Press</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social"><a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a><a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a><a href="https://github.com/sahyadri-core" target="_blank">GitHub</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const navToggle = document.getElementById('navToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const closeMobile = document.getElementById('closeMobile');
+
+      function openMobile() { mobileMenu.classList.add('open'); mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function closeMobileMenu() { mobileMenu.classList.remove('open'); mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+      navToggle.addEventListener('click', openMobile);
+      closeMobile.addEventListener('click', closeMobileMenu);
+      mobileOverlay.addEventListener('click', closeMobileMenu);
+      document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+      const introToggle = document.getElementById('introToggle');
+      const introMenu = document.getElementById('introMenu');
+      const chainToggle = document.getElementById('chainToggle');
+      const chainMenu = document.getElementById('chainMenu');
+      const resourcesToggle = document.getElementById('resourcesToggle');
+      const resourcesMenu = document.getElementById('resourcesMenu');
+
+      function closeAllDropdowns() {
+        if (introMenu) introMenu.classList.remove('open');
+        if (chainMenu) chainMenu.classList.remove('open');
+        if (resourcesMenu) resourcesMenu.classList.remove('open');
+        if (introToggle) introToggle.querySelector('.arrow').textContent = '▼';
+        if (chainToggle) chainToggle.querySelector('.arrow').textContent = '▼';
+        if (resourcesToggle) resourcesToggle.querySelector('.arrow').textContent = '▼';
+      }
+
+      function setupDropdown(btn, menu) {
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation();
+          const isOpen = menu.classList.contains('open');
+          closeAllDropdowns();
+          if (!isOpen) { menu.classList.add('open'); this.querySelector('.arrow').textContent = '▲'; }
+        });
+      }
+      setupDropdown(introToggle, introMenu);
+      setupDropdown(chainToggle, chainMenu);
+      setupDropdown(resourcesToggle, resourcesMenu);
+
+      const animated = document.querySelectorAll('.animate-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.2 });
+      animated.forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>

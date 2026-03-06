@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahyadri — Features</title>
+  <meta name="description" content="Sahyadri Features — High-performance parallel architecture, institutional security, and global scalability." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== SAME THEME AS INDEX ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; /* Fixed horizontal shifting */
+      width: 100%;
+      position: relative;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+      width: 100%;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle .arrow {
+      color: white; 
+      transition: none !important;
+      animation: none !important;
+      margin-left: 8px;
+    }
+
+    .dropdown-toggle.active-toggle {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle.active-toggle .arrow {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== PAGE HEADER ========== */
+    .page-header {
+      padding: 40px 0 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .page-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-features {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      border-radius: 32px;
+      padding: 60px 40px;
+      margin: 40px 0;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      width: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-text {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Animated Stats Objects */
+    .stats-objects {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .stat-object {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(247,147,26,0.1);
+      border: 2px solid var(--orange);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      animation: morphObject 8s ease-in-out infinite;
+    }
+
+    .object1 {
+      top: 15%;
+      right: 20%;
+      width: 70px;
+      height: 70px;
+      animation-delay: 0s;
+      border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+    }
+
+    .object2 {
+      top: 40%;
+      right: 35%;
+      width: 50px;
+      height: 50px;
+      animation-delay: 1s;
+      border-radius: 60% 40% 30% 70% / 40% 60% 40% 60%;
+    }
+
+    .object3 {
+      top: 65%;
+      right: 15%;
+      width: 80px;
+      height: 80px;
+      animation-delay: 2s;
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+    }
+
+    .object4 {
+      top: 25%;
+      right: 50%;
+      width: 40px;
+      height: 40px;
+      animation-delay: 1.5s;
+      border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+    }
+
+    .object5 {
+      top: 75%;
+      right: 45%;
+      width: 55px;
+      height: 55px;
+      animation-delay: 2.5s;
+      border-radius: 50% 50% 30% 70% / 40% 40% 60% 60%;
+    }
+
+    .object-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, var(--orange), transparent);
+      opacity: 0.2;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes morphObject {
+      0%, 100% { transform: scale(1) rotate(0deg); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+      33% { transform: scale(1.1) rotate(120deg); border-radius: 70% 30% 50% 50% / 50% 40% 60% 50%; }
+      66% { transform: scale(0.9) rotate(240deg); border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.2); }
+    }
+
+    .hero-details {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-stat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .hero-stat-icon {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--orange);
+    }
+
+    /* 3D Grid Animation */
+    .grid-animation {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      perspective: 1000px;
+      opacity: 0.3;
+    }
+
+    .grid-3d {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+      animation: gridRotate 20s linear infinite;
+    }
+
+    .grid-line-h {
+      position: absolute;
+      width: 2px;
+      height: 200px;
+      background: linear-gradient(180deg, transparent, var(--orange), transparent);
+    }
+
+    .grid-line-v {
+      position: absolute;
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    }
+
+    .grid-dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes gridRotate {
+      0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+      100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(2); opacity: 0.5; }
+    }
+
+    /* ========== FEATURES GRID ========== */
+    .features-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 50px;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 span {
+      color: var(--orange);
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 30px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background: var(--orange);
+      transition: height 0.3s;
+    }
+
+    .feature-card:hover::before {
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .feature-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--orange);
+      opacity: 0.2;
+      margin-bottom: 10px;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .feature-desc {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .feature-visual {
+      width: 100%;
+      height: 80px;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    /* Parallel Visual */
+    .parallel-visual {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .parallel-block {
+      width: 30px;
+      height: 50px;
+      background: var(--orange-light);
+      border: 2px solid var(--orange);
+      border-radius: 6px;
+      animation: blockPulse 2s ease-in-out infinite;
+    }
+
+    .block1 { animation-delay: 0s; }
+    .block2 { animation-delay: 0.2s; }
+    .block3 { animation-delay: 0.4s; }
+    .block4 { animation-delay: 0.6s; }
+
+    @keyframes blockPulse {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(1.2); }
+    }
+
+    /* Security Shield - Abstract */
+    .shield-abstract {
+      width: 60px;
+      height: 70px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .shield-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: 2px solid var(--orange);
+      border-radius: 30% 30% 0 0;
+      animation: shieldLayer 3s ease-in-out infinite;
+    }
+
+    .shield-layer:nth-child(1) { transform: translate(0, 0); opacity: 0.3; }
+    .shield-layer:nth-child(2) { transform: translate(3px, -3px); opacity: 0.2; animation-delay: 0.3s; }
+    .shield-layer:nth-child(3) { transform: translate(-3px, -3px); opacity: 0.1; animation-delay: 0.6s; }
+
+    @keyframes shieldLayer {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(5px, -5px); }
+    }
+
+    /* Mining Visual */
+    .mining-visual {
+      position: relative;
+      width: 100%;
+      height: 80px;
+    }
+
+    .mining-core {
+      width: 30px;
+      height: 30px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: corePulse 2s ease-in-out infinite;
+    }
+
+    .mining-ring {
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ringRotate 4s linear infinite;
+    }
+
+    .mining-particle {
+      width: 4px;
+      height: 4px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      animation: particleFly 2s linear infinite;
+    }
+
+    .particle1 { top: 20%; left: 20%; }
+    .particle2 { top: 70%; left: 70%; animation-delay: 0.5s; }
+    .particle3 { top: 30%; left: 80%; animation-delay: 1s; }
+
+    @keyframes corePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+    }
+
+    @keyframes ringRotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes particleFly {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(50px, -50px) scale(0); opacity: 0; }
+    }
+
+    /* Finality Visual */
+    .finality-visual {
+      width: 100%;
+      height: 80px;
+      position: relative;
+    }
+
+    .finality-check {
+      width: 30px;
+      height: 30px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: checkMove 3s ease-in-out infinite;
+    }
+
+    .finality-check::after {
+      content: '✓';
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes checkMove {
+      0% { left: 10%; opacity: 0.3; }
+      50% { left: 50%; opacity: 1; transform: translateY(-50%) scale(1.2); }
+      100% { left: 90%; opacity: 0.3; }
+    }
+
+    /* Difficulty Visual */
+    .difficulty-visual {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .diff-bar {
+      width: 20px;
+      background: var(--orange-light);
+      border: 1px solid var(--orange);
+      animation: diffPulse 2s ease-in-out infinite;
+    }
+
+    .bar1 { height: 40px; animation-delay: 0s; }
+    .bar2 { height: 60px; animation-delay: 0.2s; }
+    .bar3 { height: 30px; animation-delay: 0.4s; }
+    .bar4 { height: 50px; animation-delay: 0.6s; }
+
+    @keyframes diffPulse {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(1.2); }
+    }
+
+    /* Node Visual */
+    .node-visual {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .node-dot {
+      width: 20px;
+      height: 20px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: nodeDotPulse 2s ease-in-out infinite;
+    }
+
+    .dot-small { width: 15px; height: 15px; animation-delay: 0s; }
+    .dot-medium { width: 25px; height: 25px; animation-delay: 0.3s; }
+    .dot-large { width: 35px; height: 35px; animation-delay: 0.6s; }
+
+    @keyframes nodeDotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    /* ========== SCALABILITY SECTION ========== */
+    .scalability-section {
+      background: var(--bg-alt);
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .scalability-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .scalability-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .scalability-content h3 span {
+      color: var(--orange);
+    }
+
+    .scalability-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .scalability-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 30px;
+    }
+
+    .scalability-stat {
+      text-align: center;
+    }
+
+    .scalability-stat .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    .scalability-stat .stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .scalability-visual {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 300px;
+    }
+
+    .growth-bar {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      right: 40px;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .bar {
+      flex: 1;
+      height: 100px;
+      background: var(--orange-light);
+      border: 2px solid var(--orange);
+      border-radius: 8px 8px 0 0;
+      transition: height 0.3s;
+    }
+
+    .bar1 { height: 80px; animation: barGrow 2s ease-in-out infinite; }
+    .bar2 { height: 150px; animation: barGrow 2s ease-in-out infinite 0.2s; }
+    .bar3 { height: 120px; animation: barGrow 2s ease-in-out infinite 0.4s; }
+    .bar4 { height: 200px; animation: barGrow 2s ease-in-out infinite 0.6s; }
+    .bar5 { height: 100px; animation: barGrow 2s ease-in-out infinite 0.8s; }
+
+    @keyframes barGrow {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(1.1); }
+    }
+
+    /* ========== SECURITY LAYERS - NO EMOJIS ========== */
+    .security-layers-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .layer-card {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 30px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .layer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    /* Abstract Layer Visuals - No Emojis */
+    .layer-visual {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    /* Crypto Layer Visual */
+    .crypto-visual {
+      width: 100%;
+      height: 100%;
+      border: 3px solid var(--orange);
+      border-radius: 50%;
+      position: relative;
+      animation: cryptoRotate 6s linear infinite;
+    }
+
+    .crypto-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--orange);
+      border-radius: 50%;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes cryptoRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Consensus Visual */
+    .consensus-visual {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .consensus-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      animation: ringPulse 2s ease-in-out infinite;
+    }
+
+    .consensus-ring:nth-child(1) { transform: scale(0.7); opacity: 0.3; }
+    .consensus-ring:nth-child(2) { transform: scale(0.85); opacity: 0.6; animation-delay: 0.3s; }
+    .consensus-ring:nth-child(3) { transform: scale(1); opacity: 1; animation-delay: 0.6s; }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(0.7); opacity: 0.3; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Network Visual */
+    .network-visual-abs {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .net-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+
+    .net-dot1 { top: 20%; left: 20%; }
+    .net-dot2 { top: 20%; right: 20%; }
+    .net-dot3 { bottom: 20%; left: 20%; }
+    .net-dot4 { bottom: 20%; right: 20%; }
+    .net-dot5 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    .net-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    }
+
+    .net-line1 { width: 50px; top: 25%; left: 15%; transform: rotate(45deg); }
+    .net-line2 { width: 50px; top: 25%; right: 15%; transform: rotate(-45deg); }
+    .net-line3 { width: 50px; bottom: 25%; left: 15%; transform: rotate(-45deg); }
+    .net-line4 { width: 50px; bottom: 25%; right: 15%; transform: rotate(45deg); }
+
+    .layer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .layer-desc {
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ========== DECENTRALIZATION MAP ========== */
+    .decentralization-section {
+      background: var(--bg-alt);
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .map-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .map-content h3 span {
+      color: var(--orange);
+    }
+
+    .map-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .map-visual {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 350px;
+    }
+
+    .map-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: mapPulse 3s ease-in-out infinite;
+    }
+
+    .dot-na { top: 30%; left: 20%; }
+    .dot-eu { top: 20%; left: 45%; }
+    .dot-as { top: 40%; left: 70%; }
+    .dot-au { top: 70%; left: 80%; }
+    .dot-sa { top: 60%; left: 30%; }
+    .dot-af { top: 50%; left: 50%; }
+
+    .map-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    }
+
+    .line1 { width: 150px; top: 32%; left: 22%; transform: rotate(15deg); }
+    .line2 { width: 200px; top: 25%; left: 40%; transform: rotate(5deg); }
+    .line3 { width: 180px; top: 45%; left: 60%; transform: rotate(-10deg); }
+
+    @keyframes mapPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.7; }
+    }
+
+    /* ========== ARCHITECTURE SHOWCASE ========== */
+    .architecture-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .architecture-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .architecture-content h3 span {
+      color: var(--orange);
+    }
+
+    .architecture-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .architecture-diagram {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 350px;
+    }
+
+    .diagram-layer {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      left: 0;
+      font-weight: 600;
+    }
+
+    .layer1 { top: 20%; color: var(--orange); }
+    .layer2 { top: 50%; color: var(--text); }
+    .layer3 { top: 80%; color: var(--orange); }
+
+    .diagram-connector {
+      position: absolute;
+      width: 2px;
+      height: 60px;
+      background: linear-gradient(180deg, var(--orange), transparent);
+      left: 50%;
+    }
+
+    .connector1 { top: 25%; }
+    .connector2 { top: 55%; }
+
+    /* ========== COMPARISON ========== */
+    .comparison-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .comparison-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      transition: var(--transition);
+    }
+
+    .comparison-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    .comparison-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .comparison-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .comparison-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comparison-list li:last-child {
+      border-bottom: none;
+    }
+
+    .check {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .cross {
+      color: #999;
+      font-weight: 700;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav {
+        display: none;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .stats-objects {
+        display: none;
+      }
+      
+      .features-grid,
+      .layers-grid,
+      .scalability-grid,
+      .map-grid,
+      .architecture-grid,
+      .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+      
+      .hero-details {
+        justify-content: center;
+      }
+      
+      .footer-col {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .scalability-stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .hero-details {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .footer-col {
+        flex: 0 0 100%;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .mobile-menu {
+        padding: 80px 20px 40px;
+      }
+    }
+/* Animated Stats - Combined Styles */
+.hero-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+  font-size: 0.95rem;
+}
+
+/* Option 1: Pulse Animation */
+.stat-animation {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.stat-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: statPulse 2s ease-in-out infinite;
+}
+
+.stat-ring {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: statRing 2s ease-in-out infinite;
+}
+
+@keyframes statPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+@keyframes statRing {
+  0% { width: 20px; height: 20px; opacity: 0.3; }
+  50% { width: 28px; height: 28px; opacity: 0.6; }
+  100% { width: 20px; height: 20px; opacity: 0.3; }
+}
+
+/* Option 2: Cube Animation */
+.stat-cube {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 2px solid var(--orange);
+  transform-style: preserve-3d;
+  animation: cubeRotate 4s linear infinite;
+}
+
+.stat-cube::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(247,147,26,0.2);
+  transform: translateZ(-5px);
+}
+
+.stat-cube::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(247,147,26,0.1);
+  transform: rotateY(90deg) translateZ(5px);
+}
+
+@keyframes cubeRotate {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* Option 3: Shape Morph */
+.stat-shape {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.shape-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--orange);
+  animation: shapeMorph 3s ease-in-out infinite;
+}
+
+.shape-pulse:nth-child(1) { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+.shape-pulse:nth-child(2) { 
+  border-radius: 70% 30% 50% 50% / 50% 40% 60% 50%; 
+  animation-delay: 0.5s;
+  opacity: 0.5;
+}
+
+@keyframes shapeMorph {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  33% { transform: scale(1.1) rotate(120deg); }
+  66% { transform: scale(0.9) rotate(240deg); }
+}
+
+/* Option 4: Particles (optional) */
+.stat-particles {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.particle-orbit {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px dashed var(--orange);
+  border-radius: 50%;
+  animation: orbit 3s linear infinite;
+}
+
+.particle-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--orange);
+  border-radius: 50%;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* ========== PC/LAPTOP OVERLAP FIX ========== */
+@media (min-width: 1001px) {
+  .hero-features {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Text left mein rahega */
+    min-height: 450px;
+    padding-right: 50%; /* Right side animations ke liye jagah khaali */
+  }
+
+  .hero-content {
+    max-width: 500px; /* Text limit taaki animation se na takraye */
+    z-index: 5;
+  }
+
+  .stats-objects {
+    width: 45% !important; /* Thoda chhota kiya taaki bich mein na aaye */
+    left: 150% !important;  /* Right se thoda andar */
+    display: block !important;
+  }
+
+  .grid-animation {
+    width: 45% !important;
+    right: 0 !important;
+    opacity: 0.4;
+  }
+}
+
+/* Mobile/Tablet par jaisa tha waisa hi rahega (No changes needed there) */
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html" class="active">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html" class="nav-cta">Whitepaper</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+
+    <div class="normal-links" style="margin-bottom: 20px;">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">
+          Introduction <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CHAIN</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="chainToggle">
+          Chain <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="chainMenu">
+          <a href="protocol.html">Protocol</a>
+          <a href="vision.html">Vision</a>
+          <a href="network.html">Network</a>
+          <a href="core.html">Core</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">RESOURCES</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="resourcesToggle">
+          Resources <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="resourcesMenu">
+          <a href="exchanges.html">Exchanges</a>
+          <a href="community.html">Community</a>
+          <a href="documentation.html">Documentation</a>
+          <a href="vocabulary.html">Vocabulary</a>
+          <a href="events.html">Events</a>
+          <a href="core.html">Sahyadri Core</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INNOVATION</div>
+      <div class="normal-links">
+        <a href="innovation.html">Innovation</a>
+        <a href="participate.html">Participate</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CONNECT</div>
+      <div class="normal-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html">Developers</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- PAGE HEADER -->
+    <div class="container">
+      <div class="page-header animate">
+        <h1 class="page-title">Sahyadri <span>Features</span></h1>
+        <p class="page-subtitle">A high-performance parallel architecture engineered for speed, security, and global scalability.</p>
+      </div>
+    </div>
+
+    <!-- HERO SECTION - WITH ANIMATED OBJECTS -->
+    <div class="container">
+      <div class="hero-features animate delay-1">
+        <div class="hero-content">
+          <h2 class="hero-title">Built for the Future of Finance</h2>
+          <p class="hero-text">Sahyadri Core combines parallel processing, institutional-grade security, and true decentralization — all without compromise. The architecture scales linearly with network growth, ensuring that as more participants join, the network becomes faster and more secure.</p>
+          
+          <!-- Hero details with animated objects (no emojis) -->
+<div class="hero-details">
+  <div class="hero-stat-item">
+    <div class="stat-animation">
+      <div class="stat-dot"></div>
+      <div class="stat-ring"></div>
+    </div>
+    <span>1-second finality</span>
+  </div>
+  
+  <div class="hero-stat-item">
+    <div class="stat-cube"></div>
+    <span>Mathematical security</span>
+  </div>
+  
+  <div class="hero-stat-item">
+    <div class="stat-shape">
+      <div class="shape-pulse"></div>
+      <div class="shape-pulse"></div>
+    </div>
+    <span>Global node network</span>
+  </div>
+</div>
+        
+        <!-- Animated 3D Objects (replacing text stats) -->
+        <div class="stats-objects">
+          <div class="stat-object object1"></div>
+          <div class="stat-object object2"></div>
+          <div class="stat-object object3"></div>
+          <div class="stat-object object4"></div>
+          <div class="stat-object object5"></div>
+          <div class="object-glow"></div>
+        </div>
+        
+        <!-- Background grid animation -->
+        <div class="grid-animation">
+          <div class="grid-3d">
+            <div class="grid-line-h" style="transform: rotateX(90deg) translateZ(50px);"></div>
+            <div class="grid-line-h" style="transform: rotateX(90deg) translateZ(100px);"></div>
+            <div class="grid-line-h" style="transform: rotateX(90deg) translateZ(150px);"></div>
+            <div class="grid-line-v" style="transform: rotateY(90deg) translateZ(50px);"></div>
+            <div class="grid-line-v" style="transform: rotateY(90deg) translateZ(100px);"></div>
+            <div class="grid-line-v" style="transform: rotateY(90deg) translateZ(150px);"></div>
+            <div class="grid-dot" style="transform: translate3d(50px, 50px, 50px);"></div>
+            <div class="grid-dot" style="transform: translate3d(-50px, 50px, 100px);"></div>
+            <div class="grid-dot" style="transform: translate3d(50px, -50px, 150px);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CORE FEATURES -->
+    <div class="features-section">
+      <div class="container">
+        <div class="section-header animate">
+          <h2>Core <span>Features</span></h2>
+          <p>Designed from the ground up for the next generation of decentralized applications.</p>
+        </div>
+        <div class="features-grid">
+          <!-- Feature 1: Parallel Architecture -->
+          <div class="feature-card animate delay-1">
+            <div class="feature-number">01</div>
+            <h3 class="feature-title">Parallel Architecture</h3>
+            <p class="feature-desc">Unlike traditional blockchains that process one block at a time, Sahyadri's parallel architecture allows multiple blocks to be validated simultaneously — eliminating bottlenecks and maximizing throughput.</p>
+            <div class="feature-visual">
+              <div class="parallel-visual">
+                <div class="parallel-block block1"></div>
+                <div class="parallel-block block2"></div>
+                <div class="parallel-block block3"></div>
+                <div class="parallel-block block4"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2: Institutional Security -->
+          <div class="feature-card animate delay-2">
+            <div class="feature-number">02</div>
+            <h3 class="feature-title">Institutional Security</h3>
+            <p class="feature-desc">Mathematical finality ensures that once a transaction is confirmed, it can never be reversed. The parallel structure itself provides double-spend protection through cryptographic linking.</p>
+            <div class="feature-visual">
+              <div class="shield-abstract">
+                <div class="shield-layer"></div>
+                <div class="shield-layer"></div>
+                <div class="shield-layer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3: True Decentralization -->
+          <div class="feature-card animate delay-3">
+            <div class="feature-number">03</div>
+            <h3 class="feature-title">True Decentralization</h3>
+            <p class="feature-desc">ASIC-resistant mining ensures that anyone with a standard CPU or GPU can participate. No mining monopolies, no centralization — just pure distributed consensus.</p>
+            <div class="feature-visual">
+              <div class="mining-visual">
+                <div class="mining-core"></div>
+                <div class="mining-ring"></div>
+                <div class="mining-particle particle1"></div>
+                <div class="mining-particle particle2"></div>
+                <div class="mining-particle particle3"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 4: Instant Finality -->
+          <div class="feature-card animate delay-4">
+            <div class="feature-number">04</div>
+            <h3 class="feature-title">Instant Finality</h3>
+            <p class="feature-desc">Transactions reach mathematical finality within seconds. Once a block is referenced by subsequent blocks, it becomes permanently settled — no waiting, no uncertainty.</p>
+            <div class="feature-visual">
+              <div class="finality-visual">
+                <div class="finality-check"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 5: Adaptive Difficulty -->
+          <div class="feature-card animate delay-1">
+            <div class="feature-number">05</div>
+            <h3 class="feature-title">Adaptive Difficulty</h3>
+            <p class="feature-desc">The network adjusts mining difficulty in real-time based on global hash rate, maintaining consistent 5-10 second block intervals regardless of network participation.</p>
+            <div class="feature-visual">
+              <div class="difficulty-visual">
+                <div class="diff-bar bar1"></div>
+                <div class="diff-bar bar2"></div>
+                <div class="diff-bar bar3"></div>
+                <div class="diff-bar bar4"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 6: Low Resource Nodes -->
+          <div class="feature-card animate delay-2">
+            <div class="feature-number">06</div>
+            <h3 class="feature-title">Low Resource Nodes</h3>
+            <p class="feature-desc">Optimized protocol reduces data overhead by 40%, allowing full nodes to run on modest hardware. Lite nodes can operate on mobile devices and IoT hardware.</p>
+            <div class="feature-visual">
+              <div class="node-visual">
+                <div class="node-dot dot-small"></div>
+                <div class="node-dot dot-medium"></div>
+                <div class="node-dot dot-large"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCALABILITY SECTION -->
+    <div class="scalability-section">
+      <div class="container">
+        <div class="scalability-grid">
+          <div class="scalability-content animate">
+            <h3>Unmatched <span>Scalability</span></h3>
+            <p>Sahyadri's parallel architecture enables linear scaling with network growth. As more nodes join, the network becomes faster — not slower. This fundamental design choice ensures that Sahyadri can handle global adoption without performance degradation.</p>
+            <div class="scalability-stats">
+              <div class="scalability-stat">
+                <div class="stat-number">10,000+</div>
+                <div class="stat-label">TPS</div>
+              </div>
+              <div class="scalability-stat">
+                <div class="stat-number">1s</div>
+                <div class="stat-label">Finality</div>
+              </div>
+              <div class="scalability-stat">
+                <div class="stat-number">1,000+</div>
+                <div class="stat-label">Nodes</div>
+              </div>
+            </div>
+          </div>
+          <div class="scalability-visual animate delay-2">
+            <div class="growth-bar">
+              <div class="bar bar1"></div>
+              <div class="bar bar2"></div>
+              <div class="bar bar3"></div>
+              <div class="bar bar4"></div>
+              <div class="bar bar5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY LAYERS - NO EMOJIS -->
+    <div class="security-layers-section">
+      <div class="container">
+        <div class="section-header animate">
+          <h2>Security <span>Layers</span></h2>
+          <p>Defense in depth — from cryptographic primitives to network-wide consensus.</p>
+        </div>
+        <div class="layers-grid">
+          <div class="layer-card animate delay-1">
+            <div class="layer-visual">
+              <div class="crypto-visual">
+                <div class="crypto-dot"></div>
+              </div>
+            </div>
+            <h3 class="layer-title">Cryptographic Layer</h3>
+            <p class="layer-desc">Industry-standard SECP256K1 and Ed25519 signatures ensure that only the rightful owner can spend their assets. Multi-signature support adds additional security layers.</p>
+          </div>
+          <div class="layer-card animate delay-2">
+            <div class="layer-visual">
+              <div class="consensus-visual">
+                <div class="consensus-ring"></div>
+                <div class="consensus-ring"></div>
+                <div class="consensus-ring"></div>
+              </div>
+            </div>
+            <h3 class="layer-title">Consensus Layer</h3>
+            <p class="layer-desc">Proof-of-Work with ASIC-resistant algorithm ensures true decentralization and 51% attack resistance. Every participant contributes to network security.</p>
+          </div>
+          <div class="layer-card animate delay-3">
+            <div class="layer-visual">
+              <div class="network-visual-abs">
+                <div class="net-dot net-dot1"></div>
+                <div class="net-dot net-dot2"></div>
+                <div class="net-dot net-dot3"></div>
+                <div class="net-dot net-dot4"></div>
+                <div class="net-dot net-dot5"></div>
+                <div class="net-line net-line1"></div>
+                <div class="net-line net-line2"></div>
+                <div class="net-line net-line3"></div>
+                <div class="net-line net-line4"></div>
+              </div>
+            </div>
+            <h3 class="layer-title">Network Layer</h3>
+            <p class="layer-desc">DDoS protection, rate limiting, and reputation-based peer scoring keep the network resilient against attacks. Information propagates in milliseconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECENTRALIZATION MAP -->
+    <div class="decentralization-section">
+      <div class="container">
+        <div class="map-grid">
+          <div class="map-visual animate">
+            <div class="map-dot dot-na"></div>
+            <div class="map-dot dot-eu"></div>
+            <div class="map-dot dot-as"></div>
+            <div class="map-dot dot-au"></div>
+            <div class="map-dot dot-sa"></div>
+            <div class="map-dot dot-af"></div>
+            <div class="map-line line1"></div>
+            <div class="map-line line2"></div>
+            <div class="map-line line3"></div>
+          </div>
+          <div class="map-content animate delay-2">
+            <h3>Global <span>Decentralization</span></h3>
+            <p>Sahyadri nodes span every continent, operated by individuals and organizations with no single point of control. The network belongs to everyone — and no one.</p>
+            <p>With thousands of independent validators across the globe, censorship becomes mathematically impossible. Your transactions will always find a path through the network.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURE SHOWCASE -->
+    <div class="architecture-section">
+      <div class="container">
+        <div class="architecture-grid">
+          <div class="architecture-content animate">
+            <h3>Sahyadri <span>Core</span> Architecture</h3>
+            <p>The Sahyadri Core is built on three fundamental layers, each optimized for its specific role while working in perfect harmony.</p>
+            <p><strong>Consensus Layer:</strong> Pure Proof-of-Work with ASIC-resistant mining ensures true decentralization from day one.</p>
+            <p><strong>Network Layer:</strong> Advanced gossip protocol propagates information across thousands of nodes in milliseconds.</p>
+            <p><strong>Execution Layer:</strong> Parallel processing enables true concurrency for smart contracts and transactions.</p>
+          </div>
+          <div class="architecture-diagram animate delay-2">
+            <div class="diagram-layer layer1">Consensus Layer</div>
+            <div class="diagram-connector connector1"></div>
+            <div class="diagram-layer layer2">Network Layer</div>
+            <div class="diagram-connector connector2"></div>
+            <div class="diagram-layer layer3">Execution Layer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="comparison-section">
+      <div class="container">
+        <div class="section-header animate">
+          <h2>Sahyadri <span>vs</span> Traditional Chains</h2>
+          <p>See how Sahyadri Core outperforms conventional blockchain architectures.</p>
+        </div>
+        <div class="comparison-grid">
+          <div class="comparison-card animate delay-1">
+            <h3 class="comparison-title">Traditional Blockchains</h3>
+            <ul class="comparison-list">
+              <li><span class="cross">✗</span> Sequential processing — one block at a time</li>
+              <li><span class="cross">✗</span> 10-60 minute confirmation times</li>
+              <li><span class="cross">✗</span> ASIC-dominated mining</li>
+              <li><span class="cross">✗</span> High fees during congestion</li>
+              <li><span class="cross">✗</span> Orphan blocks waste energy</li>
+            </ul>
+          </div>
+          <div class="comparison-card animate delay-2" style="border-color: var(--orange);">
+            <h3 class="comparison-title" style="color: var(--orange);">Sahyadri Core</h3>
+            <ul class="comparison-list">
+              <li><span class="check">✓</span> Parallel processing — multiple blocks at once</li>
+              <li><span class="check">✓</span> 1-second finality</li>
+              <li><span class="check">✓</span> CPU/GPU friendly — no ASIC monopoly</li>
+              <li><span class="check">✓</span> Near-zero fees always</li>
+              <li><span class="check">✓</span> Every block contributes to security</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Introduction -->
+        <div class="footer-col">
+          <h4 class="footer-title">Introduction</h4>
+          <ul class="footer-links">
+            <li><a href="individuals.html">Individuals</a></li>
+            <li><a href="businesses.html">Businesses</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="you-need-to-know.html">You need to know</a></li>
+            <li><a href="whitepaper.html">White paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Resources -->
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="exchanges.html">Exchanges</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="vocabulary.html">Vocabulary</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="core.html">Sahyadri Core</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Participate -->
+        <div class="footer-col">
+          <h4 class="footer-title">Participate</h4>
+          <ul class="footer-links">
+            <li><a href="support-sahyadri.html">Support Sahyadri</a></li>
+            <li><a href="buy.html">Buy Sahyadri</a></li>
+            <li><a href="sell.html">Sell Sahyadri</a></li>
+            <li><a href="full-node.html">Running a full node</a></li>
+            <li><a href="development.html">Development</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Other -->
+        <div class="footer-col">
+          <h4 class="footer-title">Other</h4>
+          <ul class="footer-links">
+            <li><a href="avoid-scams.html">Avoid Scams</a></li>
+            <li><a href="legal.html">Legal</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="about.html">About Sahyadri.org</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a>
+          <a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a>
+          <a href="https://github.com/sahyadri-core" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const closeMobile = document.getElementById('closeMobile');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Dropdown functionality
+    const introToggle = document.getElementById('introToggle');
+    const introMenu = document.getElementById('introMenu');
+    const chainToggle = document.getElementById('chainToggle');
+    const chainMenu = document.getElementById('chainMenu');
+    const resourcesToggle = document.getElementById('resourcesToggle');
+    const resourcesMenu = document.getElementById('resourcesMenu');
+
+    function closeAllDropdowns() {
+      introMenu.classList.remove('open');
+      chainMenu.classList.remove('open');
+      resourcesMenu.classList.remove('open');
+      
+      introToggle.classList.remove('active-toggle');
+      chainToggle.classList.remove('active-toggle');
+      resourcesToggle.classList.remove('active-toggle');
+    }
+
+    function handleToggle(toggleElement, menuElement) {
+      toggleElement.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = menuElement.classList.contains('open');
+        
+        closeAllDropdowns();
+        
+        if (!isOpen) {
+          menuElement.classList.add('open');
+          toggleElement.classList.add('active-toggle');
+        }
+      });
+    }
+
+    handleToggle(introToggle, introMenu);
+    handleToggle(chainToggle, chainMenu);
+    handleToggle(resourcesToggle, resourcesMenu);
+  </script>
+</body>
+</html>

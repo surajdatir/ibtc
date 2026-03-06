@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahyadri — Contact</title>
+  <meta name="description" content="Connect with the Sahyadri Ecosystem — Technical query, general feedback, or developer support." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ========== SAME THEME AS INDEX ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+      width: 100%;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle .arrow {
+      color: white; 
+      transition: none !important;
+      animation: none !important;
+      margin-left: 8px;
+    }
+
+    .dropdown-toggle.active-toggle {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle.active-toggle .arrow {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== PAGE HEADER ========== */
+    .page-header {
+      padding: 40px 0 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .page-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-contact {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      border-radius: 32px;
+      padding: 80px 40px;
+      margin: 40px 0;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      width: 100%;
+    }
+
+    .hero-contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(247,147,26,0.3), transparent);
+      animation: breathe 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.2); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-title span {
+      color: var(--orange);
+    }
+
+    .hero-text {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* ========== CONTACT SECTION ========== */
+    .contact-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .section-subhead {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-subhead h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .section-subhead h2 span {
+      color: var(--orange);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* Glass Form */
+    .glass-form {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(247,147,26,0.2);
+      border-radius: 32px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 15px 0;
+      font-size: 1rem;
+      border: none;
+      border-bottom: 2px solid var(--border);
+      background: transparent;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-bottom-color: var(--orange);
+    }
+
+    .form-label {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      color: var(--text-muted);
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .form-input:focus ~ .form-label,
+    .form-input:not(:placeholder-shown) ~ .form-label {
+      top: -15px;
+      font-size: 0.8rem;
+      color: var(--orange);
+    }
+
+    .form-input::placeholder {
+      color: transparent;
+    }
+
+    textarea.form-input {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px var(--orange);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Quick Contact Cards */
+    .quick-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--orange-light);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--orange);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .card-content {
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .card-detail {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 15px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .copy-btn:hover {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* ========== GLOBAL PRESENCE ========== */
+    .global-section {
+      background: var(--bg-alt);
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .global-content {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .global-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .global-content h3 span {
+      color: var(--orange);
+    }
+
+    .global-content p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .map-container {
+      position: relative;
+      height: 300px;
+      background: #0a0a0a;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .map-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: ripple 2s ease-out infinite;
+    }
+
+    .dot1 { top: 30%; left: 20%; }
+    .dot2 { top: 40%; left: 50%; }
+    .dot3 { top: 60%; left: 70%; }
+    .dot4 { top: 20%; left: 80%; }
+    .dot5 { top: 70%; left: 40%; }
+    .dot6 { top: 50%; left: 30%; }
+    .dot7 { top: 80%; left: 60%; }
+    .dot8 { top: 25%; left: 35%; }
+
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(5); opacity: 0; }
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" opacity="0.2"><path d="M200,100 Q300,50 400,100 T600,150" stroke="%23F7931A" fill="none" stroke-width="2"/><path d="M150,200 Q250,150 350,200 T550,250" stroke="%23F7931A" fill="none" stroke-width="2"/><path d="M250,300 Q350,250 450,300 T650,350" stroke="%23F7931A" fill="none" stroke-width="2"/><circle cx="300" cy="120" r="5" fill="%23F7931A"/><circle cx="500" cy="180" r="5" fill="%23F7931A"/><circle cx="400" cy="280" r="5" fill="%23F7931A"/><circle cx="600" cy="320" r="5" fill="%23F7931A"/></svg>');
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* ========== FAQ SECTION ========== */
+    .faq-section {
+      padding: 60px 0;
+      width: 100%;
+    }
+
+    .faq-grid {
+      max-width: 800px;
+      margin: 40px auto 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .faq-question i {
+      transition: transform 0.3s ease;
+    }
+
+    .faq-question.active i {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .faq-answer.open {
+      max-height: 200px;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav {
+        display: none;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .footer-col {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .footer-col {
+        flex: 0 0 100%;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .mobile-menu {
+        padding: 80px 20px 40px;
+      }
+      
+      .contact-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="developers.html" class="nav-cta">Devs</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+
+    <div class="normal-links" style="margin-bottom: 20px;">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">
+          Introduction <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CHAIN</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="chainToggle">
+          Chain <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="chainMenu">
+          <a href="protocol.html">Protocol</a>
+          <a href="vision.html">Vision</a>
+          <a href="network.html">Network</a>
+          <a href="core.html">Core</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">RESOURCES</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="resourcesToggle">
+          Resources <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="resourcesMenu">
+          <a href="exchanges.html">Exchanges</a>
+          <a href="community.html">Community</a>
+          <a href="documentation.html">Documentation</a>
+          <a href="vocabulary.html">Vocabulary</a>
+          <a href="events.html">Events</a>
+          <a href="core.html">Sahyadri Core</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INNOVATION</div>
+      <div class="normal-links">
+        <a href="innovation.html">Innovation</a>
+        <a href="participate.html">Participate</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CONNECT</div>
+      <div class="normal-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html">Developers</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- PAGE HEADER -->
+    <div class="container">
+      <div class="page-header animate">
+        <h1 class="page-title">Sahyadri <span>Support Hub</span></h1>
+        <p class="page-subtitle">Connect with the Sahyadri Ecosystem — Technical query, general feedback, or developer support.</p>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="container">
+      <div class="hero-contact animate delay-1">
+        <div class="hero-content">
+          <h2 class="hero-title">Get in <span>Touch</span></h2>
+          <p class="hero-text">Whether you have a technical query or general feedback, our global team and developers are ready to assist you.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <div class="contact-section">
+      <div class="container">
+        <div class="section-subhead animate">
+          <h2>Contact <span>Us</span></h2>
+        </div>
+        <div class="contact-grid">
+          <!-- Left: Glass Form -->
+          <div class="glass-form animate delay-2">
+            <form id="contactForm" onsubmit="submitForm(event)">
+              <div class="form-group">
+                <input type="text" class="form-input" id="name" placeholder=" " required>
+                <label class="form-label" for="name">Full Name</label>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-input" id="email" placeholder=" " required>
+                <label class="form-label" for="email">Email Address</label>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-input" id="subject" placeholder=" " required>
+                <label class="form-label" for="subject">Subject</label>
+              </div>
+              <div class="form-group">
+                <textarea class="form-input" id="message" placeholder=" " required></textarea>
+                <label class="form-label" for="message">Your Message</label>
+              </div>
+              <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+          </div>
+
+          <!-- Right: Quick Contact Cards -->
+          <div class="quick-contact animate delay-3">
+            <!-- Official Mail -->
+            <div class="contact-card">
+              <div class="card-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="card-content">
+                <div class="card-title">Official Mail</div>
+                <div class="card-detail">info@sahyadri.com</div>
+          
+              </div>
+            </div>
+
+            <!-- Media Inquiries -->
+            <div class="contact-card">
+              <div class="card-icon">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <div class="card-content">
+                <div class="card-title">Media Inquiries</div>
+                <div class="card-detail">press@sahyadri.com </div>
+         
+              </div>
+            </div>
+
+            <!-- Developer Support -->
+            <div class="contact-card">
+              <div class="card-icon">
+                <i class="fab fa-discord"></i>
+              </div>
+              <div class="card-content">
+                <div class="card-title">Developer Support</div>
+                <div class="card-detail">Join our Discord community</div>
+                <a href="https://discord.gg/vnehg5SFU" class="copy-btn" style="text-decoration: none;">Join Server →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL PRESENCE -->
+    <div class="global-section">
+      <div class="container">
+        <div class="global-content animate">
+          <h3>Always Online. <span>Distributed Everywhere.</span></h3>
+          <p>Our nodes span the globe — resilient, decentralized, and always available.</p>
+        </div>
+        <div class="map-container animate delay-2">
+          <div class="map-placeholder"></div>
+          <div class="map-dot dot1"></div>
+          <div class="map-dot dot2"></div>
+          <div class="map-dot dot3"></div>
+          <div class="map-dot dot4"></div>
+          <div class="map-dot dot5"></div>
+          <div class="map-dot dot6"></div>
+          <div class="map-dot dot7"></div>
+          <div class="map-dot dot8"></div>
+        </div>
+      </div>
+    </div>
+
+  <!-- FAQ PREVIEW -->
+<div class="faq-section">
+  <div class="container">
+    <div class="section-subhead animate">
+      <h2>Frequently Asked <span>Questions</span></h2>
+    </div>
+    <div class="faq-grid animate delay-2">
+      
+      <!-- FAQ 1: What is Sahyadri? -->
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What is Sahyadri?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+<strong>Sahyadri is a sovereign Proof-of-Work digital currency network</strong> designed for fast, fair, and decentralized value transfer.
+It focuses on monetary integrity, fixed supply (21 million), and open participation through CPU and GPU mining.
+        </div>
+      </div>
+
+      <!-- FAQ 2: What is its use? -->
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What is Sahyadri used for?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Sahyadri can be used for instant peer-to-peer payments, decentralized applications (dApps), smart contracts, and as a store of value (21M fixed supply). Its low fees and high speed make it ideal for micro-transactions, cross-border settlements, and DeFi applications.
+        </div>
+      </div>
+
+      <!-- FAQ 3: How fast is Sahyadri? -->
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>How fast is Sahyadri?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Sahyadri achieves 1-second block finality with over 10,000 transactions per second (TPS). Its parallel architecture allows multiple blocks to be processed simultaneously — no waiting, no congestion.
+        </div>
+      </div>
+
+      <!-- FAQ 4: What consensus does Sahyadri use? -->
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What consensus mechanism does Sahyadri use?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          Sahyadri uses pure Proof-of-Work (PoW) with an ASIC-resistant hashing algorithm optimized for CPU and GPU mining. This ensures true decentralization — anyone with a standard computer can participate in securing the network.
+        </div>
+      </div>
+
+      <!-- FAQ 5: What is a blockchain? -->
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What is a blockchain and why use it?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          A blockchain is a distributed digital ledger that records transactions across many computers. It's secure, transparent, and immutable — meaning once data is recorded, it cannot be altered. Sahyadri uses this technology to create a financial system without banks or intermediaries.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Introduction -->
+        <div class="footer-col">
+          <h4 class="footer-title">Introduction</h4>
+          <ul class="footer-links">
+            <li><a href="individuals.html">Individuals</a></li>
+            <li><a href="businesses.html">Businesses</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="you-need-to-know.html">You need to know</a></li>
+            <li><a href="whitepaper.html">White paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Resources -->
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="exchanges.html">Exchanges</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="vocabulary.html">Vocabulary</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="core.html">Sahyadri Core</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Participate -->
+        <div class="footer-col">
+          <h4 class="footer-title">Participate</h4>
+          <ul class="footer-links">
+            <li><a href="support-sahyadri.html">Support Sahyadri</a></li>
+            <li><a href="buy.html">Buy Sahyadri</a></li>
+            <li><a href="sell.html">Sell Sahyadri</a></li>
+            <li><a href="full-node.html">Running a full node</a></li>
+            <li><a href="development.html">Development</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Other -->
+        <div class="footer-col">
+          <h4 class="footer-title">Other</h4>
+          <ul class="footer-links">
+            <li><a href="avoid-scams.html">Avoid Scams</a></li>
+            <li><a href="legal.html">Legal</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="about.html">About Sahyadri.org</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a>
+          <a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a>
+          <a href="https://github.com/sahyadri-core" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const closeMobile = document.getElementById('closeMobile');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Dropdown functionality
+    const introToggle = document.getElementById('introToggle');
+    const introMenu = document.getElementById('introMenu');
+    const chainToggle = document.getElementById('chainToggle');
+    const chainMenu = document.getElementById('chainMenu');
+    const resourcesToggle = document.getElementById('resourcesToggle');
+    const resourcesMenu = document.getElementById('resourcesMenu');
+
+    function closeAllDropdowns() {
+      introMenu.classList.remove('open');
+      chainMenu.classList.remove('open');
+      resourcesMenu.classList.remove('open');
+      
+      introToggle.classList.remove('active-toggle');
+      chainToggle.classList.remove('active-toggle');
+      resourcesToggle.classList.remove('active-toggle');
+    }
+
+    function handleToggle(toggleElement, menuElement) {
+      toggleElement.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = menuElement.classList.contains('open');
+        
+        closeAllDropdowns();
+        
+        if (!isOpen) {
+          menuElement.classList.add('open');
+          toggleElement.classList.add('active-toggle');
+        }
+      });
+    }
+
+    handleToggle(introToggle, introMenu);
+    handleToggle(chainToggle, chainMenu);
+    handleToggle(resourcesToggle, resourcesMenu);
+
+    // Copy to clipboard function
+    window.copyToClipboard = function(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Email copied to clipboard: ' + text);
+      });
+    };
+
+    // Form submission
+    window.submitForm = function(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      
+      // Create mailto link
+      const mailtoLink = `mailto:sahyadricore@gmail.com?subject=${encodeURIComponent(subject)}&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A%0A${encodeURIComponent(message)}`;
+      
+      // Open default email client
+      window.location.href = mailtoLink;
+      
+      // Optional: Show success message
+      alert('Your default email client will open. Please send the email to complete your inquiry.');
+      
+      // Reset form
+      document.getElementById('contactForm').reset();
+    };
+
+    // FAQ toggle
+    window.toggleFAQ = function(element) {
+      element.classList.toggle('active');
+      const answer = element.nextElementSibling;
+      
+      if (answer.classList.contains('open')) {
+        answer.classList.remove('open');
+      } else {
+        // Close other open FAQs
+        document.querySelectorAll('.faq-answer.open').forEach(ans => {
+          ans.classList.remove('open');
+          ans.previousElementSibling.classList.remove('active');
+        });
+        
+        answer.classList.add('open');
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Sahyadri — Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER (exact from index) ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== FOOTER (exact from index) ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav { display: none; }
+      .nav-toggle { display: block; }
+      .mobile-menu { padding: 80px 20px 40px; }
+      .footer-grid { gap: 30px; }
+      .footer-col { flex: 0 0 calc(50% - 15px); }
+    }
+
+    @media (max-width: 600px) {
+      .footer-col { flex: 0 0 100%; }
+      .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+      .footer-social { justify-content: center; }
+    }
+
+    /* ========== DOCUMENTATION PAGE STYLES ========== */
+    .doc-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px 3rem;
+    }
+
+    section {
+      padding: 70px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .animate-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    .hero-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Palatino', serif;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 550px;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      border-left: 6px solid var(--orange);
+      padding-left: 1.2rem;
+    }
+
+    .section-text {
+      font-family: 'Palatino', serif;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+      margin-bottom: 2rem;
+      max-width: 750px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--orange-dark);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    /* ===== 3D VISUAL MODULES (ENHANCED ANIMATIONS) ===== */
+    .vis-module {
+      width: 100%;
+      min-height: 260px;
+      background: #0b1017;
+      border-radius: 40px;
+      margin: 2rem 0 1rem;
+      box-shadow: 0 30px 40px -20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(247,147,26,0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .vis-module-light {
+      background: #f5f9ff;
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+
+    /* Hero wireframe */
+    .wireframe-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 80%;
+    }
+    .layer {
+      height: 40px;
+      border: 2px solid rgba(247,147,26,0.5);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: rgba(0,0,0,0.2);
+      animation: pulseLayer 4s infinite;
+      transform-origin: left;
+    }
+    @keyframes pulseLayer { 0% { opacity: 0.6; transform: scaleX(1); } 50% { opacity: 1; transform: scaleX(1.02); } }
+
+    /* Core architecture stack */
+    .stack-3d {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 15px;
+      width: 200px;
+      transform: rotateX(10deg) rotateY(-10deg);
+    }
+    .stack-layer {
+      height: 60px;
+      background: rgba(247,147,26,0.15);
+      border: 2px solid #F7931A;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-weight: 500;
+      animation: confirmPulse 6s infinite;
+    }
+    @keyframes confirmPulse { 0% { box-shadow: 0 0 5px #F7931A; } 50% { box-shadow: 0 0 20px #F7931A; } }
+
+    /* BLOCK LIFECYCLE - FLOATING ANIMATION */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .flow-step {
+      width: 90px;
+      height: 70px;
+      background: #1e2a3a;
+      border: 2px solid #F7931A;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #F7931A;
+      font-size: 0.8rem;
+      animation: floatStep 3s infinite ease-in-out;
+      box-shadow: 0 5px 15px rgba(247,147,26,0.2);
+    }
+    .flow-arrow {
+      color: #F7931A;
+      font-size: 1.8rem;
+      animation: arrowPulse 2s infinite;
+    }
+    @keyframes floatStep {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); box-shadow: 0 15px 25px rgba(247,147,26,0.4); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes arrowPulse { 0% { opacity: 0.5; } 50% { opacity: 1; } }
+
+    /* NODE NETWORK - PULSING NODES */
+    .node-network {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+    .net-node {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #F7931A;
+      border-radius: 50%;
+      background: rgba(247,147,26,0.1);
+      animation: nodeGlow 4s infinite;
+    }
+    @keyframes nodeGlow { 0% { box-shadow: 0 0 5px #F7931A; } 50% { box-shadow: 0 0 20px #F7931A; } }
+
+    /* UTXO - MERGING/SPLITTING */
+    .utxo-flow {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .utxo-input {
+      width: 70px;
+      height: 70px;
+      background: #1e2a3a;
+      border: 2px solid #F7931A;
+      border-radius: 8px;
+      animation: mergeIn 3s infinite;
+    }
+    .utxo-output {
+      width: 50px;
+      height: 50px;
+      border: 2px solid #F7931A;
+      border-radius: 8px;
+      margin: 0 5px;
+      animation: splitOut 3s infinite;
+    }
+    @keyframes mergeIn { 0% { transform: scale(0.9); } 50% { transform: scale(1.1); } }
+    @keyframes splitOut { 0% { transform: scale(1); } 50% { transform: scale(0.8); } }
+
+    /* PROOF OF WORK - HASHING FIELD */
+    .pow-field {
+      width: 250px;
+      height: 120px;
+      background: radial-gradient(circle at 30% 50%, #F7931A 0%, transparent 50%);
+      animation: hashRipple 3s infinite;
+      border-radius: 50%;
+      filter: blur(8px);
+    }
+    @keyframes hashRipple { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } }
+
+    /* CONSENSUS - CONVERGENCE */
+    .converge {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    .candidate {
+      width: 50px; height: 50px; border: 2px solid #aaa; opacity: 0.5;
+      animation: fadeOutIn 4s infinite;
+    }
+    .final-block {
+      width: 70px; height: 70px; border: 3px solid #F7931A; 
+      animation: lockFlash 2s infinite, floatFinal 3s infinite;
+    }
+    @keyframes lockFlash { 0% { box-shadow: 0 0 5px #F7931A; } 50% { box-shadow: 0 0 30px #F7931A; } }
+    @keyframes floatFinal { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* MONETARY POLICY - 3D CURVE */
+    .monetary-3d {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(20deg);
+    }
+    .step-block {
+      position: absolute;
+      width: 40px;
+      height: calc(100% - 50px);
+      background: linear-gradient(180deg, #F7931A, #b85e00);
+      bottom: 0;
+      border-radius: 6px 6px 0 0;
+      animation: blockRise 5s infinite;
+    }
+    @keyframes blockRise { 0% { height: 30px; } 50% { height: 120px; } }
+
+    /* SECURITY - INVALID/VALID */
+    .security-row {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .invalid-pulse {
+      width: 80px; height: 80px; border: 2px solid #ff4444; 
+      animation: invalidShake 2s infinite;
+    }
+    .valid-pulse {
+      width: 80px; height: 80px; border: 3px solid #F7931A;
+      animation: validGlow 2s infinite;
+    }
+    @keyframes invalidShake { 0% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+
+    /* GOVERNANCE */
+    .gov-panel { display: flex; gap: 30px; justify-content: center; }
+    .slider-static { width: 80px; height: 20px; background: #333; border-radius: 10px; border: 1px solid #F7931A; animation: slideLock 4s infinite; }
+
+    /* API */
+    .api-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .endpoint { width: 80px; height: 40px; border: 2px dashed #F7931A; border-radius: 20px; animation: endpointPulse 3s infinite; }
+
+    /* CONTRIBUTING */
+    .code-modules { display: flex; gap: 15px; flex-wrap: wrap; }
+    .module { width: 60px; height: 60px; background: #1e2a3a; border: 1px solid #F7931A; transform: rotate(5deg); animation: rotateModule 10s infinite; }
+
+    /* FINAL GRID */
+    .final-grid {
+      width: 100%;
+      height: 150px;
+      background-image: linear-gradient(45deg, #F7931A20 2px, transparent 2px);
+      background-size: 30px 30px;
+      animation: gridShift 10s infinite linear;
+    }
+    @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (exact from index) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="getting-started.html">Get Started</a>
+        <a href="you-need-to-know.html">You Need to Know</a>
+        <a href="documentation.html" class="active">Documentation</a>
+        <a href="developers.html" class="nav-cta">Whitepaper</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile overlay & menu (exact from index) -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+    <div class="normal-links" style="margin-bottom:20px"><a href="index.html">Home</a></div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">Introduction <span class="arrow">▼</span></button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CHAIN</div><div class="dropdown"><button class="dropdown-toggle" id="chainToggle">Chain <span class="arrow">▼</span></button><div class="dropdown-menu" id="chainMenu"><a href="protocol.html">Protocol</a><a href="vision.html">Vision</a><a href="network.html">Network</a><a href="core.html">Core</a><a href="roadmap.html">Roadmap</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">RESOURCES</div><div class="dropdown"><button class="dropdown-toggle" id="resourcesToggle">Resources <span class="arrow">▼</span></button><div class="dropdown-menu" id="resourcesMenu"><a href="exchanges.html">Exchanges</a><a href="community.html">Community</a><a href="documentation.html">Documentation</a><a href="vocabulary.html">Vocabulary</a><a href="events.html">Events</a><a href="core.html">Sahyadri Core</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">INNOVATION</div><div class="normal-links"><a href="innovation.html">Innovation</a><a href="participate.html">Participate</a><a href="faq.html">FAQ</a></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CONNECT</div><div class="normal-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="developers.html">Developers</a></div></div>
+  </div>
+
+  <!-- MAIN: DOCUMENTATION CONTENT (ENHANCED ANIMATIONS) -->
+  <main class="doc-container">
+    <!-- 1. Hero -->
+    <section style="padding-top: 40px;">
+      <div class="hero-grid">
+        <div class="animate-up visible">
+          <h1 class="hero-title">Sahyadri Documentation</h1>
+          <p class="hero-subtitle">Build on a rule-based protocol, not assumptions.</p>
+          <p class="section-text">This documentation describes the Sahyadri protocol architecture, validation rules, node operation, and integration interfaces. All behavior described here is enforced at the protocol level.</p>
+          <div class="btn-group">
+            <a href="core.html" class="btn-primary">Core Architecture</a>
+            <a href="#" class="btn-outline">Run a Node</a>
+            <a href="https://www.github.com/sahyadri-core/" class="btn-outline">GitHub Repository</a>
+          </div>
+        </div>
+        <div class="vis-module animate-up delay-1">
+          <div class="wireframe-layers">
+            <div class="layer">Network</div>
+            <div class="layer">Consensus</div>
+            <div class="layer">Application PoW</div>
+            <div class="layer">State</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Core Architecture -->
+    <section>
+      <h2 class="section-title animate-up">Core Architecture</h2>
+      <p class="section-text animate-up delay-1">Sahyadri is composed of a deterministic consensus layer and an application-layer Proof-of-Work system. Consensus is responsible for ordering and finality. Proof-of-Work imposes economic cost on block proposal and transaction inclusion. Both layers operate independently but are cryptographically bound.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="stack-3d">
+          <div class="stack-layer">Deterministic Consensus</div>
+          <div class="stack-layer">Application-layer PoW</div>
+          <div class="stack-layer">State (UTXO)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Block Lifecycle (FLOATING BOXES) -->
+    <section>
+      <h2 class="section-title animate-up">Block Lifecycle</h2>
+      <p class="section-text animate-up delay-1">A transaction flows through local verification, global propagation, block proposal, proof computation, and deterministic finalization. Once finalized, a block is irreversible.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="flow-row">
+          <div class="flow-step">TX</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">Validation</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">Mempool</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">Template</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">PoW</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">Consensus</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step" style="border-color: #F7931A;">Finalized</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Running a Node -->
+    <section>
+      <h2 class="section-title animate-up">Running a Node</h2>
+      <p class="section-text animate-up delay-1">Anyone can run a Sahyadri node without permission. Nodes verify transactions, validate blocks, and enforce protocol rules. Supported node types include full, pruned, archive, and light clients.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="node-network">
+          <div class="net-node" style="top:30%; left:20%;"></div>
+          <div class="net-node" style="top:50%; left:40%; width:40px; height:40px;"></div>
+          <div class="net-node" style="top:20%; left:70%; width:50px; height:50px;"></div>
+          <div class="net-node" style="top:70%; left:60%; width:25px; height:25px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Transaction Model (UNIQUE: MERGE/SPLIT) -->
+    <section>
+      <h2 class="section-title animate-up">Transaction Model</h2>
+      <p class="section-text animate-up delay-1">Sahyadri uses a UTXO-based transaction model. Each transaction consumes previous outputs and creates new, independently spendable outputs. Ownership is proven by cryptographic signatures, not identity.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="utxo-flow">
+          <div class="utxo-input"></div>
+          <div class="utxo-input"></div>
+          <span style="color:#F7931A; font-size:2rem;">→</span>
+          <div class="utxo-output"></div>
+          <div class="utxo-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Proof-of-Work (HASHING FIELD) -->
+    <section>
+      <h2 class="section-title animate-up">Proof-of-Work (Application Layer)</h2>
+      <p class="section-text animate-up delay-1">Proof-of-Work is applied at the application layer to enforce a real computational cost on block proposal. Work is cryptographically bound to transaction ordering and state commitment, preventing manipulation or precomputation.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="pow-field"></div>
+      </div>
+    </section>
+
+    <!-- 7. Consensus & Finality -->
+    <section>
+      <h2 class="section-title animate-up">Consensus & Finality</h2>
+      <p class="section-text animate-up delay-1">Sahyadri consensus provides deterministic finality. Once a block is accepted, it cannot be reorganized or reversed. Finality does not depend on accumulated confirmations.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="converge">
+          <div class="candidate"></div>
+          <div class="candidate"></div>
+          <span style="color:#F7931A;">→</span>
+          <div class="final-block"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Monetary Policy (3D BLOCKS) -->
+    <section>
+      <h2 class="section-title animate-up">Monetary Policy</h2>
+      <p class="section-text animate-up delay-1">Sahyadri enforces a fixed supply and deterministic issuance schedule. Block rewards follow a halving model defined at genesis. No governance process can modify supply or issuance.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="monetary-3d">
+          <div class="step-block" style="left:10%; animation-delay:0s;"></div>
+          <div class="step-block" style="left:30%; animation-delay:0.5s;"></div>
+          <div class="step-block" style="left:50%; animation-delay:1s;"></div>
+          <div class="step-block" style="left:70%; animation-delay:1.5s;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Security Model (UNIQUE SHAKE/GLOW) -->
+    <section>
+      <h2 class="section-title animate-up">Security Model</h2>
+      <p class="section-text animate-up delay-1">Security emerges from verifiable computation, deterministic finality, and economic incentives. Invalid blocks are rejected. Dishonest behavior results in wasted computation and zero reward.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="security-row">
+          <div class="invalid-pulse"></div>
+          <span style="color:#F7931A;">→</span>
+          <div class="valid-pulse"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Governance -->
+    <section>
+      <h2 class="section-title animate-up">Governance (Limited)</h2>
+      <p class="section-text animate-up delay-1">Governance cannot alter monetary rules or transaction history. It exists only to adjust a narrow set of non-monetary parameters within fixed bounds.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="gov-panel">
+          <div class="slider-static"></div>
+          <div class="slider-static"></div>
+          <div class="slider-static"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. APIs -->
+    <section>
+      <h2 class="section-title animate-up">APIs & Integration</h2>
+      <p class="section-text animate-up delay-1">Sahyadri exposes interfaces for transaction submission, state queries, and block inspection. These APIs allow wallets, payment systems, and layer-2 protocols to integrate without trust assumptions.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="api-grid">
+          <div class="endpoint"></div>
+          <div class="endpoint"></div>
+          <div class="endpoint"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Contributing -->
+    <section>
+      <h2 class="section-title animate-up">Contributing</h2>
+      <p class="section-text animate-up delay-1">Sahyadri is open-source. Contributors are expected to follow protocol specifications and deterministic design principles.</p>
+      <div class="vis-module animate-up delay-2">
+        <div class="code-modules">
+          <div class="module"></div>
+          <div class="module"></div>
+          <div class="module"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. Bottom CTA -->
+    <section style="border-bottom: none;">
+      <h2 class="section-title animate-up">Sahyadri does not ask you to trust the system. It allows you to verify it.</h2>
+      <div class="btn-group animate-up delay-1" style="margin-bottom:2rem;">
+        <a href="whitepaper.html" class="btn-primary">Whitepaper</a>
+        <a href="https://www.github.com/sahyadri-core/" class="btn-outline">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (exact from index) -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4 class="footer-title">Introduction</h4><ul class="footer-links"><li><a href="individuals.html">Individuals</a></li><li><a href="businesses.html">Businesses</a></li><li><a href="developers.html">Developers</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="you-need-to-know.html">You need to know</a></li><li><a href="whitepaper.html">White paper</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Resources</h4><ul class="footer-links"><li><a href="resources.html">Resources</a></li><li><a href="exchanges.html">Exchanges</a></li><li><a href="community.html">Community</a></li><li><a href="vocabulary.html">Vocabulary</a></li><li><a href="events.html">Events</a></li><li><a href="core.html">Sahyadri Core</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Participate</h4><ul class="footer-links"><li><a href="support-sahyadri.html">Support Sahyadri</a></li><li><a href="buy.html">Buy Sahyadri</a></li><li><a href="sell.html">Sell Sahyadri</a></li><li><a href="full-node.html">Running a full node</a></li><li><a href="development.html">Development</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Other</h4><ul class="footer-links"><li><a href="avoid-scams.html">Avoid Scams</a></li><li><a href="legal.html">Legal</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="press.html">Press</a></li><li><a href="about.html">About Sahyadri.org</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social"><a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a><a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a><a href="https://github.com/sahyadri-core" target="_blank">GitHub</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const navToggle = document.getElementById('navToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const closeMobile = document.getElementById('closeMobile');
+
+      function openMobile() { mobileMenu.classList.add('open'); mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function closeMobileMenu() { mobileMenu.classList.remove('open'); mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+      navToggle.addEventListener('click', openMobile);
+      closeMobile.addEventListener('click', closeMobileMenu);
+      mobileOverlay.addEventListener('click', closeMobileMenu);
+      document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+      const introToggle = document.getElementById('introToggle');
+      const introMenu = document.getElementById('introMenu');
+      const chainToggle = document.getElementById('chainToggle');
+      const chainMenu = document.getElementById('chainMenu');
+      const resourcesToggle = document.getElementById('resourcesToggle');
+      const resourcesMenu = document.getElementById('resourcesMenu');
+
+      function closeAllDropdowns() {
+        if (introMenu) introMenu.classList.remove('open');
+        if (chainMenu) chainMenu.classList.remove('open');
+        if (resourcesMenu) resourcesMenu.classList.remove('open');
+        if (introToggle) introToggle.querySelector('.arrow').textContent = '▼';
+        if (chainToggle) chainToggle.querySelector('.arrow').textContent = '▼';
+        if (resourcesToggle) resourcesToggle.querySelector('.arrow').textContent = '▼';
+      }
+
+      function setupDropdown(btn, menu) {
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation();
+          const isOpen = menu.classList.contains('open');
+          closeAllDropdowns();
+          if (!isOpen) { menu.classList.add('open'); this.querySelector('.arrow').textContent = '▲'; }
+        });
+      }
+      setupDropdown(introToggle, introMenu);
+      setupDropdown(chainToggle, chainMenu);
+      setupDropdown(resourcesToggle, resourcesMenu);
+
+      const animated = document.querySelectorAll('.animate-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.2 });
+      animated.forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>

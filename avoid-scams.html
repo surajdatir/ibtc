@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Sahyadri — Avoid Scams: Protect Your Funds</title>
+  <meta name="description" content="Learn how to protect yourself from scams targeting Sahyadri users. Blackmail, fake exchanges, phishing, malware, and more." />
+  <!-- Original fonts: Inter + Palatino -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & VARIABLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav { display: none; }
+      .nav-toggle { display: block; }
+      .mobile-menu { padding: 80px 20px 40px; }
+      .footer-grid { gap: 30px; }
+      .footer-col { flex: 0 0 calc(50% - 15px); }
+    }
+
+    @media (max-width: 600px) {
+      .footer-col { flex: 0 0 100%; }
+      .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+      .footer-social { justify-content: center; }
+    }
+
+    /* ========== AVOID SCAMS PAGE STYLES ========== */
+    .scams-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 32px 3rem;
+    }
+
+    .page-header {
+      padding: 60px 0 30px;
+    }
+
+    .page-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-intro {
+      font-family: 'Palatino', serif;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    /* Mobile menu for scam categories */
+    .scam-nav-mobile {
+      display: none;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      position: relative;
+      z-index: 50;
+    }
+
+    .scam-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .scam-nav-header .hamburger-icon {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .scam-nav-header .hamburger-icon span {
+      width: 22px;
+      height: 2px;
+      background: var(--orange);
+      transition: var(--transition);
+    }
+
+    .scam-nav-header span:last-child {
+      color: var(--orange);
+      font-size: 0.9rem;
+    }
+
+    .scam-menu-dropdown {
+      display: none;
+      flex-direction: column;
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid var(--border);
+      background: #fafafa;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .scam-menu-dropdown.open {
+      display: flex;
+    }
+
+    .scam-menu-item {
+      padding: 14px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .scam-menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .scam-menu-item:hover {
+      background: var(--orange-light);
+      color: var(--orange-dark);
+    }
+
+    .scam-menu-item.active {
+      background: var(--orange-light);
+      color: var(--orange);
+      font-weight: 600;
+      border-left: 4px solid var(--orange);
+    }
+
+    /* desktop category list */
+    .scam-category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 50px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .category-pill {
+      padding: 8px 16px;
+      background: #f5f5f5;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .category-pill:hover {
+      background: var(--orange-light);
+      color: var(--orange-dark);
+      border-color: var(--orange);
+    }
+
+    .category-pill.active {
+      background: var(--orange);
+      color: white;
+    }
+
+    /* scam sections */
+    .scam-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 100px;
+    }
+
+    .scam-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .scam-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      border-left: 6px solid var(--orange);
+      padding-left: 1.2rem;
+    }
+
+    .scam-description {
+      font-family: 'Palatino', serif;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+      line-height: 1.7;
+      max-width: 800px;
+    }
+
+    .scam-description p {
+      margin-bottom: 1rem;
+    }
+
+    /* animation */
+    .animate-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 800px) {
+      .scam-category-list { display: none; }
+      .scam-nav-mobile { display: block; }
+      .page-title { font-size: 2.5rem; }
+    }
+
+    /* active section highlight */
+    .scam-section.highlight {
+      background: #fff9f0;
+      transition: background 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (matching site theme) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="whitepaper.html">Whitepaper</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile overlay & menu (site) -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+    <div class="normal-links" style="margin-bottom:20px"><a href="index.html">Home</a></div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">Introduction <span class="arrow">▼</span></button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CHAIN</div><div class="dropdown"><button class="dropdown-toggle" id="chainToggle">Chain <span class="arrow">▼</span></button><div class="dropdown-menu" id="chainMenu"><a href="protocol.html">Protocol</a><a href="vision.html">Vision</a><a href="network.html">Network</a><a href="core.html">Core</a><a href="roadmap.html">Roadmap</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">RESOURCES</div><div class="dropdown"><button class="dropdown-toggle" id="resourcesToggle">Resources <span class="arrow">▼</span></button><div class="dropdown-menu" id="resourcesMenu"><a href="exchanges.html">Exchanges</a><a href="community.html">Community</a><a href="documentation.html">Documentation</a><a href="vocabulary.html">Vocabulary</a><a href="events.html">Events</a><a href="core.html">Sahyadri Core</a><a href="avoid-scams.html">Avoid Scams</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">INNOVATION</div><div class="normal-links"><a href="innovation.html">Innovation</a><a href="participate.html">Participate</a><a href="faq.html">FAQ</a></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CONNECT</div><div class="normal-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="developers.html">Developers</a></div></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="scams-container">
+    <!-- Page Header -->
+    <div class="page-header animate-up visible">
+      <h1 class="page-title">Avoid <span>Scams</span></h1>
+      <p class="page-intro">Sahyadri is a decentralized digital currency. Transactions on the network are irreversible once confirmed, which means that users must remain cautious when sending funds or interacting with services. While the Sahyadri protocol itself is secure, scammers may attempt to exploit users through deception, impersonation, or fraudulent services. Understanding common scams can help you protect your funds and avoid financial loss.</p>
+    </div>
+
+    <!-- Mobile Hamburger Navigation (only visible on mobile) -->
+    <div class="scam-nav-mobile">
+      <div class="scam-nav-header" id="scamMenuToggle">
+        <div class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>Scam Categories</span>
+      </div>
+      <div class="scam-menu-dropdown" id="scamMenuDropdown">
+        <a href="#blackmail" class="scam-menu-item">Blackmail</a>
+        <a href="#fake-exchanges" class="scam-menu-item">Fake Exchanges</a>
+        <a href="#free-giveaways" class="scam-menu-item">Free Giveaways</a>
+        <a href="#impersonation" class="scam-menu-item">Impersonation</a>
+        <a href="#malware" class="scam-menu-item">Malware</a>
+        <a href="#meet-in-person" class="scam-menu-item">Meet in Person</a>
+        <a href="#money-transfer-fraud" class="scam-menu-item">Money Transfer Fraud</a>
+        <a href="#phishing-emails" class="scam-menu-item">Phishing Emails</a>
+        <a href="#phishing-websites" class="scam-menu-item">Phishing Websites</a>
+        <a href="#ponzi-schemes" class="scam-menu-item">Ponzi Schemes</a>
+        <a href="#pyramid-schemes" class="scam-menu-item">Pyramid Schemes</a>
+        <a href="#prize-giveaways" class="scam-menu-item">Prize Giveaways</a>
+        <a href="#pump-and-dumps" class="scam-menu-item">Pump and Dumps</a>
+        <a href="#ransomware" class="scam-menu-item">Ransomware</a>
+        <a href="#scam-coins" class="scam-menu-item">Scam Coins</a>
+      </div>
+    </div>
+
+    <!-- Desktop Pill Navigation (visible on desktop) -->
+    <div class="scam-category-list">
+      <a href="#blackmail" class="category-pill">Blackmail</a>
+      <a href="#fake-exchanges" class="category-pill">Fake Exchanges</a>
+      <a href="#free-giveaways" class="category-pill">Free Giveaways</a>
+      <a href="#impersonation" class="category-pill">Impersonation</a>
+      <a href="#malware" class="category-pill">Malware</a>
+      <a href="#meet-in-person" class="category-pill">Meet in Person</a>
+      <a href="#money-transfer-fraud" class="category-pill">Money Transfer Fraud</a>
+      <a href="#phishing-emails" class="category-pill">Phishing Emails</a>
+      <a href="#phishing-websites" class="category-pill">Phishing Websites</a>
+      <a href="#ponzi-schemes" class="category-pill">Ponzi Schemes</a>
+      <a href="#pyramid-schemes" class="category-pill">Pyramid Schemes</a>
+      <a href="#prize-giveaways" class="category-pill">Prize Giveaways</a>
+      <a href="#pump-and-dumps" class="category-pill">Pump and Dumps</a>
+      <a href="#ransomware" class="category-pill">Ransomware</a>
+      <a href="#scam-coins" class="category-pill">Scam Coins</a>
+    </div>
+
+    <!-- Scam Sections (full descriptions) -->
+    <section id="blackmail" class="scam-section animate-up">
+      <h2 class="scam-title">Blackmail</h2>
+      <div class="scam-description">
+        <p>Be wary of blackmail attempts where strangers threaten you in exchange for Sahyadri as a means of extortion. One common method involves an email claiming that the sender has hacked into your computer and gained access to your files or webcam. The message may say that embarrassing content has been recorded and will be sent to your contacts unless you send Sahyadri to a specific address.</p>
+        <p>These messages are almost always fraudulent and are sent to thousands of people using stolen email lists. The sender usually has no real access to your computer. Do not panic and do not send funds. Simply ignore or delete such messages and ensure your devices are protected with strong passwords and updated security software.</p>
+      </div>
+    </section>
+
+    <section id="fake-exchanges" class="scam-section animate-up delay-1">
+      <h2 class="scam-title">Fake Exchanges</h2>
+      <div class="scam-description">
+        <p>As Sahyadri becomes more widely adopted, scammers may attempt to create fake exchanges or trading platforms that appear legitimate. These websites may advertise extremely attractive prices or quick profit opportunities to convince users to deposit funds.</p>
+        <p>Once users transfer Sahyadri to these platforms, withdrawals may become impossible or the website may disappear entirely. Always verify the reputation of an exchange before using it, and avoid platforms that promise unrealistic benefits or unusually favorable prices.</p>
+      </div>
+    </section>
+
+    <section id="free-giveaways" class="scam-section animate-up delay-2">
+      <h2 class="scam-title">Free Giveaways</h2>
+      <div class="scam-description">
+        <p>Scammers often claim that they are giving away free Sahyadri in exchange for a small registration payment or some personal information. These schemes frequently appear on social media, websites, or messaging platforms.</p>
+        <p>In most cases, the scammer asks the victim to send a small amount of Sahyadri first, promising to return a larger amount. Once the funds are sent, the scammer disappears. Legitimate projects do not require payments in order to receive giveaways. If an offer sounds too good to be true, it is most likely a scam.</p>
+      </div>
+    </section>
+
+    <section id="impersonation" class="scam-section animate-up">
+      <h2 class="scam-title">Impersonation</h2>
+      <div class="scam-description">
+        <p>Impersonation scams involve attackers pretending to be trusted individuals, companies, or community members. Fake social media accounts may copy the name, profile picture, and messaging style of well-known figures or organizations.</p>
+        <p>These impersonators may respond to posts or send direct messages offering assistance, investment opportunities, or giveaways. Because the account appears legitimate, victims may trust the request and send funds. Always verify the identity of the person you are communicating with and never send Sahyadri to someone solely based on a social media interaction.</p>
+      </div>
+    </section>
+
+    <section id="malware" class="scam-section animate-up delay-1">
+      <h2 class="scam-title">Malware</h2>
+      <div class="scam-description">
+        <p>Malicious software can be used to steal Sahyadri from unsuspecting users. Some malware programs monitor clipboard activity and automatically replace a copied wallet address with the attacker’s address when the user pastes it during a transaction.</p>
+        <p>Because Sahyadri transactions cannot be reversed once confirmed, this can result in permanent loss of funds. Always double-check wallet addresses before sending transactions and avoid installing unknown software. Keeping your system updated and using trusted security tools can help reduce this risk.</p>
+      </div>
+    </section>
+
+    <section id="meet-in-person" class="scam-section animate-up delay-2">
+      <h2 class="scam-title">Meet in Person</h2>
+      <div class="scam-description">
+        <p>In some cases, individuals may offer to buy or sell Sahyadri through in-person meetings. While this may appear convenient, it can be risky if the other party is unknown or untrusted.</p>
+        <p>Criminals have been known to use such meetings to steal funds or exchange counterfeit cash for Sahyadri. If you choose to conduct transactions locally, ensure that the other party is trustworthy and consider using platforms that provide escrow protection instead of meeting strangers directly.</p>
+      </div>
+    </section>
+
+    <section id="money-transfer-fraud" class="scam-section animate-up">
+      <h2 class="scam-title">Money Transfer Fraud</h2>
+      <div class="scam-description">
+        <p>You may receive messages or emails from strangers asking for help transferring large sums of money. In return, they promise to give you a portion of the funds as a reward for your assistance.</p>
+        <p>These schemes are fraudulent and are designed to trick people into sending money or providing personal information. Never respond to requests from unknown individuals asking you to help move funds or participate in financial transactions on their behalf.</p>
+      </div>
+    </section>
+
+    <section id="phishing-emails" class="scam-section animate-up delay-1">
+      <h2 class="scam-title">Phishing Emails</h2>
+      <div class="scam-description">
+        <p>Phishing emails attempt to trick users into revealing sensitive information such as passwords, wallet details, or private keys. These messages may appear to come from legitimate services and may ask you to reset your password or confirm your account details.</p>
+        <p>The email usually contains a link to a fake website that closely resembles the real service. Always verify the sender and avoid clicking suspicious links. When in doubt, visit the official website directly rather than using links provided in emails.</p>
+      </div>
+    </section>
+
+    <section id="phishing-websites" class="scam-section animate-up delay-2">
+      <h2 class="scam-title">Phishing Websites</h2>
+      <div class="scam-description">
+        <p>Phishing websites are designed to imitate legitimate services in order to steal login credentials or wallet information. These websites often look almost identical to real platforms, making them difficult to identify at first glance.</p>
+        <p>Users may reach these sites through fake advertisements, search engine results, or phishing emails. Always verify the website URL carefully before entering any information or downloading software. Never install wallet software from untrusted sources.</p>
+      </div>
+    </section>
+
+    <section id="ponzi-schemes" class="scam-section animate-up">
+      <h2 class="scam-title">Ponzi Schemes</h2>
+      <div class="scam-description">
+        <p>Ponzi schemes promise guaranteed returns on investments. Early participants may receive payouts funded by new investors, which creates the illusion that the system is profitable.</p>
+        <p>Eventually the scheme collapses when new deposits stop, leaving most participants with significant losses. Any investment opportunity that promises guaranteed profits should be approached with extreme caution.</p>
+      </div>
+    </section>
+
+    <section id="pyramid-schemes" class="scam-section animate-up delay-1">
+      <h2 class="scam-title">Pyramid Schemes</h2>
+      <div class="scam-description">
+        <p>A pyramid scheme encourages participants to recruit others in order to earn rewards. Each participant benefits primarily from bringing in additional members rather than from any real product or service.</p>
+        <p>Such systems grow rapidly but are unsustainable and typically collapse once recruitment slows down. Avoid joining programs that require you to recruit others in order to earn financial rewards.</p>
+      </div>
+    </section>
+
+    <section id="prize-giveaways" class="scam-section animate-up delay-2">
+      <h2 class="scam-title">Prize Giveaways</h2>
+      <div class="scam-description">
+        <p>Prize giveaway scams promise rewards in exchange for personal information or small payments. Victims may be asked to provide their name, address, email, phone number, or wallet details in order to claim a prize.</p>
+        <p>This information may then be used for identity theft or further scams. Legitimate promotions do not require sensitive information or upfront payments to claim rewards.</p>
+      </div>
+    </section>
+
+    <section id="pump-and-dumps" class="scam-section animate-up">
+      <h2 class="scam-title">Pump and Dumps</h2>
+      <div class="scam-description">
+        <p>Pump-and-dump schemes involve individuals or groups attempting to artificially inflate the price of a digital asset by spreading misleading information or encouraging others to buy quickly.</p>
+        <p>Once the price rises, the organizers sell their holdings for profit while other participants are left with losses when the price falls. Be cautious of anyone claiming to know future market prices or encouraging urgent investment decisions.</p>
+      </div>
+    </section>
+
+    <section id="ransomware" class="scam-section animate-up delay-1">
+      <h2 class="scam-title">Ransomware</h2>
+      <div class="scam-description">
+        <p>Ransomware is a type of malicious software that blocks access to your computer or files until a payment is made. Attackers often demand payment in digital currencies such as Sahyadri.</p>
+        <p>Paying the ransom does not guarantee that your files will be restored. It is safer to seek assistance from cybersecurity professionals and focus on preventing infection by avoiding suspicious downloads and keeping systems updated.</p>
+      </div>
+    </section>
+
+    <section id="scam-coins" class="scam-section animate-up delay-2">
+      <h2 class="scam-title">Scam Coins</h2>
+      <div class="scam-description">
+        <p>Some fraudulent projects create fake digital currencies to trick investors. These projects often feature professional websites, aggressive marketing campaigns, and promises of large returns.</p>
+        <p>They may offer discounted presales, airdrops, or limited-time investment opportunities to create urgency. In many cases, the creators abandon the project after collecting funds. Always research any digital asset carefully before investing and avoid projects that rely primarily on hype rather than real technology or transparent development.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4 class="footer-title">Introduction</h4><ul class="footer-links"><li><a href="individuals.html">Individuals</a></li><li><a href="businesses.html">Businesses</a></li><li><a href="developers.html">Developers</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="you-need-to-know.html">You need to know</a></li><li><a href="whitepaper.html">White paper</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Resources</h4><ul class="footer-links"><li><a href="resources.html">Resources</a></li><li><a href="exchanges.html">Exchanges</a></li><li><a href="community.html">Community</a></li><li><a href="vocabulary.html">Vocabulary</a></li><li><a href="events.html">Events</a></li><li><a href="core.html">Sahyadri Core</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Participate</h4><ul class="footer-links"><li><a href="support-sahyadri.html">Support Sahyadri</a></li><li><a href="buy.html">Buy Sahyadri</a></li><li><a href="sell.html">Sell Sahyadri</a></li><li><a href="full-node.html">Running a full node</a></li><li><a href="development.html">Development</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Other</h4><ul class="footer-links"><li><a href="avoid-scams.html">Avoid Scams</a></li><li><a href="legal.html">Legal</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="press.html">Press</a></li><li><a href="about.html">About Sahyadri.org</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social"><a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a><a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a><a href="https://github.com/sahyadri-core" target="_blank">GitHub</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // Mobile menu toggle (for site)
+      const navToggle = document.getElementById('navToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const closeMobile = document.getElementById('closeMobile');
+
+      function openMobile() { mobileMenu.classList.add('open'); mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function closeMobileMenu() { mobileMenu.classList.remove('open'); mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+      navToggle.addEventListener('click', openMobile);
+      closeMobile.addEventListener('click', closeMobileMenu);
+      mobileOverlay.addEventListener('click', closeMobileMenu);
+      document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+      // Site dropdowns
+      const introToggle = document.getElementById('introToggle');
+      const introMenu = document.getElementById('introMenu');
+      const chainToggle = document.getElementById('chainToggle');
+      const chainMenu = document.getElementById('chainMenu');
+      const resourcesToggle = document.getElementById('resourcesToggle');
+      const resourcesMenu = document.getElementById('resourcesMenu');
+
+      function closeAllDropdowns() {
+        if (introMenu) introMenu.classList.remove('open');
+        if (chainMenu) chainMenu.classList.remove('open');
+        if (resourcesMenu) resourcesMenu.classList.remove('open');
+        if (introToggle) introToggle.querySelector('.arrow').textContent = '▼';
+        if (chainToggle) chainToggle.querySelector('.arrow').textContent = '▼';
+        if (resourcesToggle) resourcesToggle.querySelector('.arrow').textContent = '▼';
+      }
+
+      function setupDropdown(btn, menu) {
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation();
+          const isOpen = menu.classList.contains('open');
+          closeAllDropdowns();
+          if (!isOpen) { menu.classList.add('open'); this.querySelector('.arrow').textContent = '▲'; }
+        });
+      }
+      setupDropdown(introToggle, introMenu);
+      setupDropdown(chainToggle, chainMenu);
+      setupDropdown(resourcesToggle, resourcesMenu);
+
+      // SCAMS PAGE: Mobile hamburger menu for categories
+      const scamToggle = document.getElementById('scamMenuToggle');
+      const scamDropdown = document.getElementById('scamMenuDropdown');
+      
+      if (scamToggle) {
+        scamToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          scamDropdown.classList.toggle('open');
+        });
+      }
+
+      // Close scam menu when clicking a link (mobile)
+      document.querySelectorAll('.scam-menu-item').forEach(link => {
+        link.addEventListener('click', function() {
+          scamDropdown.classList.remove('open');
+        });
+      });
+
+      // Smooth scroll for all category links
+      document.querySelectorAll('.category-pill, .scam-menu-item').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1); // remove #
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 90, // offset for header
+              behavior: 'smooth'
+            });
+
+            // Highlight active section
+            document.querySelectorAll('.scam-section').forEach(s => s.classList.remove('highlight'));
+            targetElement.classList.add('highlight');
+            setTimeout(() => targetElement.classList.remove('highlight'), 2000);
+
+            // Update active class on pills (desktop)
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            if (this.classList.contains('category-pill')) {
+              this.classList.add('active');
+            } else {
+              // for mobile menu items, find corresponding pill
+              const pill = document.querySelector(`.category-pill[href="#${targetId}"]`);
+              if (pill) pill.classList.add('active');
+            }
+          }
+        });
+      });
+
+      // Scroll animation observer
+      const animated = document.querySelectorAll('.animate-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.2 });
+      animated.forEach(el => observer.observe(el));
+
+      // Highlight active pill on scroll
+      const sections = document.querySelectorAll('.scam-section');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          if (pageYOffset >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+        document.querySelectorAll('.category-pill').forEach(pill => {
+          pill.classList.remove('active');
+          if (pill.getAttribute('href') === `#${current}`) {
+            pill.classList.add('active');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

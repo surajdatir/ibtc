@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Sahyadri — Legal & Disclaimers</title>
+  <meta name="description" content="Legal information, disclaimers, and terms regarding the Sahyadri protocol. No investment advice, decentralized protocol, open source license." />
+  <!-- Original fonts: Inter + Palatino -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & VARIABLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav { display: none; }
+      .nav-toggle { display: block; }
+      .mobile-menu { padding: 80px 20px 40px; }
+      .footer-grid { gap: 30px; }
+      .footer-col { flex: 0 0 calc(50% - 15px); }
+    }
+
+    @media (max-width: 600px) {
+      .footer-col { flex: 0 0 100%; }
+      .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+      .footer-social { justify-content: center; }
+    }
+
+    /* ========== LEGAL PAGE STYLES (same as Avoid Scams) ========== */
+    .legal-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 32px 3rem;
+    }
+
+    .page-header {
+      padding: 60px 0 30px;
+    }
+
+    .page-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-intro {
+      font-family: 'Palatino', serif;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    /* Mobile hamburger for legal sections */
+    .legal-nav-mobile {
+      display: none;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      position: relative;
+      z-index: 50;
+    }
+
+    .legal-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .legal-nav-header .hamburger-icon {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .legal-nav-header .hamburger-icon span {
+      width: 22px;
+      height: 2px;
+      background: var(--orange);
+      transition: var(--transition);
+    }
+
+    .legal-nav-header span:last-child {
+      color: var(--orange);
+      font-size: 0.9rem;
+    }
+
+    .legal-menu-dropdown {
+      display: none;
+      flex-direction: column;
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid var(--border);
+      background: #fafafa;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .legal-menu-dropdown.open {
+      display: flex;
+    }
+
+    .legal-menu-item {
+      padding: 14px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .legal-menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .legal-menu-item:hover {
+      background: var(--orange-light);
+      color: var(--orange-dark);
+    }
+
+    .legal-menu-item.active {
+      background: var(--orange-light);
+      color: var(--orange);
+      font-weight: 600;
+      border-left: 4px solid var(--orange);
+    }
+
+    /* desktop category list */
+    .legal-category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 50px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legal-pill {
+      padding: 8px 16px;
+      background: #f5f5f5;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .legal-pill:hover {
+      background: var(--orange-light);
+      color: var(--orange-dark);
+      border-color: var(--orange);
+    }
+
+    .legal-pill.active {
+      background: var(--orange);
+      color: white;
+    }
+
+    /* legal sections */
+    .legal-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 100px;
+    }
+
+    .legal-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .legal-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      border-left: 6px solid var(--orange);
+      padding-left: 1.2rem;
+    }
+
+    .legal-description {
+      font-family: 'Palatino', serif;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+      line-height: 1.7;
+      max-width: 800px;
+    }
+
+    .legal-description p {
+      margin-bottom: 1rem;
+    }
+
+    /* animation */
+    .animate-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 800px) {
+      .legal-category-list { display: none; }
+      .legal-nav-mobile { display: block; }
+      .page-title { font-size: 2.5rem; }
+    }
+
+    .legal-section.highlight {
+      background: #fff9f0;
+      transition: background 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (matching site theme) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+          <a href="developers.html" class="nav-cta">Whitepaper</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile overlay & menu (site) -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+    <div class="normal-links" style="margin-bottom:20px"><a href="index.html">Home</a></div>
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">Introduction <span class="arrow">▼</span></button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CHAIN</div><div class="dropdown"><button class="dropdown-toggle" id="chainToggle">Chain <span class="arrow">▼</span></button><div class="dropdown-menu" id="chainMenu"><a href="protocol.html">Protocol</a><a href="vision.html">Vision</a><a href="network.html">Network</a><a href="core.html">Core</a><a href="roadmap.html">Roadmap</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">RESOURCES</div><div class="dropdown"><button class="dropdown-toggle" id="resourcesToggle">Resources <span class="arrow">▼</span></button><div class="dropdown-menu" id="resourcesMenu"><a href="exchanges.html">Exchanges</a><a href="community.html">Community</a><a href="documentation.html">Documentation</a><a href="vocabulary.html">Vocabulary</a><a href="events.html">Events</a><a href="core.html">Sahyadri Core</a></div></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">INNOVATION</div><div class="normal-links"><a href="innovation.html">Innovation</a><a href="participate.html">Participate</a><a href="faq.html">FAQ</a></div></div>
+    <div class="mobile-nav-section"><div class="mobile-nav-title">CONNECT</div><div class="normal-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="developers.html">Developers</a></div></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="legal-container">
+    <!-- Page Header -->
+    <div class="page-header animate-up visible">
+      <h1 class="page-title">Legal <span>Information</span></h1>
+      <p class="page-intro">The Sahyadri website and related documentation are provided for informational and educational purposes only. Sahyadri is an open, decentralized blockchain protocol that operates through independently run software and distributed network participants. The project does not control the network, user funds, or transactions, and no central authority has the ability to alter the ledger once blocks are finalized. Participation in the network is voluntary and users are responsible for understanding the technology and risks associated with digital assets before interacting with the system.</p>
+    </div>
+
+    <!-- Mobile Hamburger Navigation (only visible on mobile) -->
+    <div class="legal-nav-mobile">
+      <div class="legal-nav-header" id="legalMenuToggle">
+        <div class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>Legal Sections</span>
+      </div>
+      <div class="legal-menu-dropdown" id="legalMenuDropdown">
+        <a href="#no-investment-advice" class="legal-menu-item">No Investment Advice</a>
+        <a href="#decentralized-protocol" class="legal-menu-item">Decentralized Protocol</a>
+        <a href="#no-custody" class="legal-menu-item">No Custody of Funds</a>
+        <a href="#software-use" class="legal-menu-item">Software Use</a>
+        <a href="#regulatory-compliance" class="legal-menu-item">Regulatory Compliance</a>
+        <a href="#third-party-services" class="legal-menu-item">Third-Party Services</a>
+        <a href="#open-source-license" class="legal-menu-item">Open Source License</a>
+        <a href="#limitation-of-liability" class="legal-menu-item">Limitation of Liability</a>
+        <a href="#changes-to-information" class="legal-menu-item">Changes to Information</a>
+      </div>
+    </div>
+
+    <!-- Desktop Pill Navigation (visible on desktop) -->
+    <div class="legal-category-list">
+      <a href="#no-investment-advice" class="legal-pill">No Investment Advice</a>
+      <a href="#decentralized-protocol" class="legal-pill">Decentralized Protocol</a>
+      <a href="#no-custody" class="legal-pill">No Custody of Funds</a>
+      <a href="#software-use" class="legal-pill">Software Use</a>
+      <a href="#regulatory-compliance" class="legal-pill">Regulatory Compliance</a>
+      <a href="#third-party-services" class="legal-pill">Third-Party Services</a>
+      <a href="#open-source-license" class="legal-pill">Open Source License</a>
+      <a href="#limitation-of-liability" class="legal-pill">Limitation of Liability</a>
+      <a href="#changes-to-information" class="legal-pill">Changes to Information</a>
+    </div>
+
+    <!-- Legal Sections (full descriptions) -->
+    <section id="no-investment-advice" class="legal-section animate-up">
+      <h2 class="legal-title">No Investment Advice</h2>
+      <div class="legal-description">
+        <p>Nothing on this website constitutes investment advice, financial advice, trading advice, or any other form of professional recommendation. The information presented is intended solely to explain the Sahyadri protocol and its design principles. Digital assets may be volatile and speculative in nature, and users should conduct their own research and consult qualified professionals before making financial decisions.</p>
+      </div>
+    </section>
+
+    <section id="decentralized-protocol" class="legal-section animate-up delay-1">
+      <h2 class="legal-title">Decentralized Protocol</h2>
+      <div class="legal-description">
+        <p>Sahyadri is a decentralized open-source protocol. The network operates through independent nodes that verify transactions and maintain consensus without central control. No individual, organization, or development team can reverse transactions, modify balances, or guarantee network performance. All protocol rules are enforced automatically by the software running on network participants' machines.</p>
+      </div>
+    </section>
+
+    <section id="no-custody" class="legal-section animate-up delay-2">
+      <h2 class="legal-title">No Custody of Funds</h2>
+      <div class="legal-description">
+        <p>The Sahyadri project and its contributors do not hold, store, or manage user funds. Users retain full responsibility for securing their private keys, wallets, and devices. Loss of private keys, compromised devices, or user error may result in permanent loss of digital assets. The Sahyadri project cannot recover lost funds under any circumstances.</p>
+      </div>
+    </section>
+
+    <section id="software-use" class="legal-section animate-up">
+      <h2 class="legal-title">Software Use</h2>
+      <div class="legal-description">
+        <p>Sahyadri software is provided on an open-source basis without warranties of any kind. The software may contain bugs, vulnerabilities, or unexpected behavior. By downloading, compiling, or running the software, users acknowledge that they are doing so at their own risk. Contributors and developers are not liable for any loss or damage arising from the use of the software.</p>
+      </div>
+    </section>
+
+    <section id="regulatory-compliance" class="legal-section animate-up delay-1">
+      <h2 class="legal-title">Regulatory Compliance</h2>
+      <div class="legal-description">
+        <p>Users are responsible for complying with the laws and regulations applicable in their jurisdiction when using Sahyadri. Legal requirements regarding digital assets may vary significantly between countries. The Sahyadri project does not provide legal guidance and cannot guarantee that the protocol or related services are compliant with all regional regulations.</p>
+      </div>
+    </section>
+
+    <section id="third-party-services" class="legal-section animate-up delay-2">
+      <h2 class="legal-title">Third-Party Services</h2>
+      <div class="legal-description">
+        <p>The Sahyadri project may reference or interact with third-party services such as exchanges, wallets, or mining pools. These services operate independently and are not controlled or endorsed by the Sahyadri protocol. Users should exercise caution and perform independent verification before trusting any third-party platform.</p>
+      </div>
+    </section>
+
+    <section id="open-source-license" class="legal-section animate-up">
+      <h2 class="legal-title">Open Source License</h2>
+      <div class="legal-description">
+        <p>Sahyadri software and related code repositories are distributed under an open-source license. This allows developers to inspect, modify, and distribute the code subject to the terms of the applicable license. Open-source distribution ensures transparency and encourages community participation in the development and security of the protocol.</p>
+      </div>
+    </section>
+
+    <section id="limitation-of-liability" class="legal-section animate-up delay-1">
+      <h2 class="legal-title">Limitation of Liability</h2>
+      <div class="legal-description">
+        <p>To the maximum extent permitted by applicable law, the Sahyadri project, its contributors, and associated developers shall not be liable for any direct or indirect damages resulting from the use or inability to use the protocol, software, or related documentation. This includes but is not limited to financial loss, loss of data, or service interruption.</p>
+      </div>
+    </section>
+
+    <section id="changes-to-information" class="legal-section animate-up delay-2">
+      <h2 class="legal-title">Changes to Information</h2>
+      <div class="legal-description">
+        <p>Documentation and information on this website may be updated periodically as the protocol evolves. Users should ensure that they are referencing the latest version of documentation and software before interacting with the network.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4 class="footer-title">Introduction</h4><ul class="footer-links"><li><a href="individuals.html">Individuals</a></li><li><a href="businesses.html">Businesses</a></li><li><a href="developers.html">Developers</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="you-need-to-know.html">You need to know</a></li><li><a href="whitepaper.html">White paper</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Resources</h4><ul class="footer-links"><li><a href="resources.html">Resources</a></li><li><a href="exchanges.html">Exchanges</a></li><li><a href="community.html">Community</a></li><li><a href="vocabulary.html">Vocabulary</a></li><li><a href="events.html">Events</a></li><li><a href="core.html">Sahyadri Core</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Participate</h4><ul class="footer-links"><li><a href="support-sahyadri.html">Support Sahyadri</a></li><li><a href="buy.html">Buy Sahyadri</a></li><li><a href="sell.html">Sell Sahyadri</a></li><li><a href="full-node.html">Running a full node</a></li><li><a href="development.html">Development</a></li></ul></div>
+        <div class="footer-col"><h4 class="footer-title">Other</h4><ul class="footer-links"><li><a href="avoid-scams.html">Avoid Scams</a></li><li><a href="legal.html">Legal</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="press.html">Press</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social"><a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a><a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a><a href="https://github.com/sahyadri-core" target="_blank">GitHub</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // Mobile menu toggle (for site)
+      const navToggle = document.getElementById('navToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const closeMobile = document.getElementById('closeMobile');
+
+      function openMobile() { mobileMenu.classList.add('open'); mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function closeMobileMenu() { mobileMenu.classList.remove('open'); mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+      navToggle.addEventListener('click', openMobile);
+      closeMobile.addEventListener('click', closeMobileMenu);
+      mobileOverlay.addEventListener('click', closeMobileMenu);
+      document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+      // Site dropdowns
+      const introToggle = document.getElementById('introToggle');
+      const introMenu = document.getElementById('introMenu');
+      const chainToggle = document.getElementById('chainToggle');
+      const chainMenu = document.getElementById('chainMenu');
+      const resourcesToggle = document.getElementById('resourcesToggle');
+      const resourcesMenu = document.getElementById('resourcesMenu');
+
+      function closeAllDropdowns() {
+        if (introMenu) introMenu.classList.remove('open');
+        if (chainMenu) chainMenu.classList.remove('open');
+        if (resourcesMenu) resourcesMenu.classList.remove('open');
+        if (introToggle) introToggle.querySelector('.arrow').textContent = '▼';
+        if (chainToggle) chainToggle.querySelector('.arrow').textContent = '▼';
+        if (resourcesToggle) resourcesToggle.querySelector('.arrow').textContent = '▼';
+      }
+
+      function setupDropdown(btn, menu) {
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation();
+          const isOpen = menu.classList.contains('open');
+          closeAllDropdowns();
+          if (!isOpen) { menu.classList.add('open'); this.querySelector('.arrow').textContent = '▲'; }
+        });
+      }
+      setupDropdown(introToggle, introMenu);
+      setupDropdown(chainToggle, chainMenu);
+      setupDropdown(resourcesToggle, resourcesMenu);
+
+      // LEGAL PAGE: Mobile hamburger menu for sections
+      const legalToggle = document.getElementById('legalMenuToggle');
+      const legalDropdown = document.getElementById('legalMenuDropdown');
+      
+      if (legalToggle) {
+        legalToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          legalDropdown.classList.toggle('open');
+        });
+      }
+
+      // Close legal menu when clicking a link (mobile)
+      document.querySelectorAll('.legal-menu-item').forEach(link => {
+        link.addEventListener('click', function() {
+          legalDropdown.classList.remove('open');
+        });
+      });
+
+      // Smooth scroll for all category links
+      document.querySelectorAll('.legal-pill, .legal-menu-item').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1); // remove #
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 90, // offset for header
+              behavior: 'smooth'
+            });
+
+            // Highlight active section
+            document.querySelectorAll('.legal-section').forEach(s => s.classList.remove('highlight'));
+            targetElement.classList.add('highlight');
+            setTimeout(() => targetElement.classList.remove('highlight'), 2000);
+
+            // Update active class on pills (desktop)
+            document.querySelectorAll('.legal-pill').forEach(p => p.classList.remove('active'));
+            if (this.classList.contains('legal-pill')) {
+              this.classList.add('active');
+            } else {
+              // for mobile menu items, find corresponding pill
+              const pill = document.querySelector(`.legal-pill[href="#${targetId}"]`);
+              if (pill) pill.classList.add('active');
+            }
+          }
+        });
+      });
+
+      // Scroll animation observer
+      const animated = document.querySelectorAll('.animate-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.2 });
+      animated.forEach(el => observer.observe(el));
+
+      // Highlight active pill on scroll
+      const sections = document.querySelectorAll('.legal-section');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          if (pageYOffset >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+        document.querySelectorAll('.legal-pill').forEach(pill => {
+          pill.classList.remove('active');
+          if (pill.getAttribute('href') === `#${current}`) {
+            pill.classList.add('active');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahyadri — How It Works</title>
+  <meta name="description" content="How Sahyadri works — 1-second finality, Block-DAG architecture, RandomX mining. Decentralized power for the digital age." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========== SAME THEME AS INDEX ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --neon-saffron: #ff9f4b;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --bg-dark: #0a0a0a;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    /* Nav CTA removed as requested - only Whitepaper gets orange */
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-toggle .arrow {
+      display: inline-block;
+      min-width: 20px;
+      text-align: right;
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== PAGE HEADER ========== */
+    .page-header {
+      padding: 60px 0 30px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ========== SECTION STYLES ========== */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-alt {
+      background: var(--bg-alt);
+    }
+
+    .section-dark {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: white;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .section-content {
+      max-width: 600px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section-title span {
+      color: var(--orange);
+    }
+
+    .section-text {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .section-text.light {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ========== ANIMATION CONTAINERS ========== */
+    .animation-container {
+      position: relative;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+    }
+
+    /* ========== 1. THE BASICS - 3D GATEWAY ========== */
+    .gateway-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .floating-phone {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotateY(0deg);
+      width: 180px;
+      height: 320px;
+      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      border-radius: 30px;
+      border: 2px solid var(--orange);
+      box-shadow: 0 0 30px rgba(247,147,26,0.3);
+      animation: phoneSpin 10s linear infinite;
+      transform-style: preserve-3d;
+    }
+
+    .phone-screen-glow {
+      position: absolute;
+      top: 20px;
+      left: 15px;
+      right: 15px;
+      bottom: 40px;
+      background: #0a0a0a;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .qr-code-3d {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background: white;
+      animation: qrGlow 2s ease-in-out infinite;
+    }
+
+    .qr-code-3d::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background: repeating-linear-gradient(0deg, 
+        #000 0px, #000 5px, 
+        transparent 5px, transparent 10px);
+    }
+
+    .qr-code-3d::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background: repeating-linear-gradient(90deg, 
+        #000 0px, #000 5px, 
+        transparent 5px, transparent 10px);
+    }
+
+    .orbiting-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: orbit 3s linear infinite;
+    }
+
+    .particle1 { animation-delay: 0s; }
+    .particle2 { animation-delay: 0.5s; }
+    .particle3 { animation-delay: 1s; }
+    .particle4 { animation-delay: 1.5s; }
+    .particle5 { animation-delay: 2s; }
+
+    @keyframes phoneSpin {
+      0% { transform: translate(-50%, -50%) rotateY(0deg) rotateZ(0deg); }
+      50% { transform: translate(-50%, -50%) rotateY(10deg) rotateZ(2deg); }
+      100% { transform: translate(-50%, -50%) rotateY(0deg) rotateZ(0deg); }
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(120px) rotate(0deg); opacity: 1; }
+      100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); opacity: 0.5; }
+    }
+
+    @keyframes qrGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(247,147,26,0.3); }
+      50% { box-shadow: 0 0 40px rgba(247,147,26,0.6); }
+    }
+
+    /* ========== 2. THE LEDGER - 3D BLOCK-DAG ========== */
+    .dag-3d-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .dag-cube {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(247,147,26,0.1);
+      border: 2px solid var(--orange);
+      transform-style: preserve-3d;
+      animation: cubeFloat 3s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .cube1 { 
+      top: 30%; left: 30%; 
+      animation-delay: 0s;
+      transform: rotateX(45deg) rotateY(30deg);
+    }
+    .cube2 { 
+      top: 50%; left: 50%; 
+      animation-delay: 0.3s;
+      transform: rotateX(30deg) rotateY(45deg);
+    }
+    .cube3 { 
+      top: 70%; left: 40%; 
+      animation-delay: 0.6s;
+      transform: rotateX(60deg) rotateY(15deg);
+    }
+    .cube4 { 
+      top: 40%; left: 70%; 
+      animation-delay: 0.9s;
+      transform: rotateX(15deg) rotateY(60deg);
+    }
+    .cube5 { 
+      top: 60%; left: 20%; 
+      animation-delay: 1.2s;
+      transform: rotateX(45deg) rotateY(45deg);
+    }
+
+    .dag-connection {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+      transform-origin: left center;
+      animation: connectionPulse 2s ease-in-out infinite;
+    }
+
+    .connection1 {
+      top: 33%;
+      left: 33%;
+      width: 120px;
+      transform: rotate(45deg);
+    }
+    .connection2 {
+      top: 53%;
+      left: 43%;
+      width: 150px;
+      transform: rotate(30deg);
+    }
+    .connection3 {
+      top: 63%;
+      left: 33%;
+      width: 200px;
+      transform: rotate(60deg);
+    }
+
+    @keyframes cubeFloat {
+      0%, 100% { transform: translateY(0) rotateX(45deg) rotateY(30deg); }
+      50% { transform: translateY(-20px) rotateX(45deg) rotateY(30deg); }
+    }
+
+    @keyframes connectionPulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+
+  /* Horizontal Pipeline Layout */
+.proof-visual-wrapper {
+  background: #0f0f0f;
+  padding: 50px 20px;
+  border-radius: 30px;
+  border: 1px solid #222;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizontal-pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tx-card {
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 50px;
+  padding: 15px;
+  width: 220px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.card-tag {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.card-icon { font-size: 2rem; margin-bottom: 10px; }
+.csm-logo { color: var(--orange); font-weight: bold; }
+
+.card-id, .card-amount {
+  color: white;
+  font-family: monospace;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.card-status {
+  font-size: 0.7rem;
+  color: var(--orange);
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.flow-arrow {
+  font-size: 2rem;
+  color: #333;
+  font-weight: bold;
+  animation: arrowPulse 1.5s infinite;
+}
+
+/* Interaction States */
+.tx-card.active-sign {
+  border-color: var(--orange);
+  box-shadow: 0 0 30px rgba(247, 147, 26, 0.2);
+  transform: translateY(-10px);
+}
+
+.lock-mechanism {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.lock-icon-new {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  filter: grayscale(1);
+  transition: all 0.5s ease;
+}
+
+.lock-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 2px;
+}
+
+/* Animations */
+@keyframes arrowPulse {
+  0%, 100% { opacity: 0.2; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(5px); color: var(--orange); }
+}
+
+/* Mobile Friendly */
+@media (max-width: 800px) {
+  .horizontal-pipeline { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+  @keyframes arrowPulse {
+    0%, 100% { transform: rotate(90deg) translateX(0); }
+    50% { transform: rotate(90deg) translateX(5px); }
+  }
+}
+
+
+    /* ========== 4. SAHYADRI MINING ========== */
+    .mining-3d {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mining-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at 30% 30%, var(--orange), #ff6b00);
+      border-radius: 50%;
+      animation: corePulse 1s ease-in-out infinite;
+    }
+
+    .mining-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border: 3px solid var(--orange);
+      border-radius: 50%;
+      animation: ringRotate 3s linear infinite;
+    }
+
+    .mining-ring::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+
+    .mining-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    .mining-particle:nth-child(3) { top: 20%; left: 30%; animation: particleMove 2s linear infinite; }
+    .mining-particle:nth-child(4) { top: 70%; left: 40%; animation: particleMove 2.5s linear infinite; }
+    .mining-particle:nth-child(5) { top: 40%; left: 80%; animation: particleMove 3s linear infinite; }
+
+    @keyframes corePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px rgba(247,147,26,0.5); }
+      50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 60px rgba(247,147,26,0.8); }
+    }
+
+    @keyframes ringRotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes particleMove {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(100px, 100px) scale(0); opacity: 0; }
+    }
+
+    /* ========== 5. GOING DEEPER - UPDATED ========== */
+    .deep-dive-container {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .explore-animation {
+      position: relative;
+      height: 200px;
+      margin: 40px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .explore-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(247,147,26,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247,147,26,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: gridMove 10s linear infinite;
+    }
+
+    .explore-pulse {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(247,147,26,0.2), transparent);
+      border-radius: 50%;
+      animation: pulseExpand 2s ease-out infinite;
+    }
+
+    .explore-docs {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: rgba(10,10,10,0.8);
+      padding: 15px 25px;
+      border-radius: 50px;
+      border: 1px solid var(--orange);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .explore-docs span {
+      width: 8px;
+      height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(30px, 30px); }
+    }
+
+    @keyframes pulseExpand {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .deep-dive-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .deep-btn {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--text);
+      padding: 16px 32px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      min-width: 200px;
+    }
+
+    .deep-btn:hover {
+      background: var(--orange);
+      color: white;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(247,147,26,0.3);
+    }
+
+    .deep-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .deep-btn:hover::before {
+      left: 100%;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav {
+        display: none;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .section-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .section-content {
+        text-align: center;
+        margin: 0 auto;
+      }
+      
+      .animation-container {
+        height: 350px;
+      }
+      
+      .footer-col {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .footer-col {
+        flex: 0 0 100%;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .deep-dive-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .deep-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .mobile-menu {
+        padding: 80px 20px 40px;
+      }
+    }
+/* SECTION 5: CARTOON MINE ANIMATION */
+.cartoon-mine-container {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 0px;
+}
+
+.mine-shaft {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.mining-block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: var(--bg-dark);
+  border: 4px solid var(--orange);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(247, 147, 26, 0.2);
+  z-index: 2;
+}
+
+.block-logo {
+  font-size: 3rem;
+  color: var(--orange);
+  animation: logoPulse 2s infinite;
+}
+
+.pickaxe {
+  position: absolute;
+  font-size: 4rem;
+  top: 0;
+  right: -20px;
+  transform-origin: bottom left;
+  animation: swing 1.5s ease-in-out infinite;
+  z-index: 3;
+}
+
+/* Sparks/Particles Animation */
+.spark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--orange);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.s1 { animation: sparkAnim 1.5s infinite 0s; }
+.s2 { animation: sparkAnim 1.5s infinite 0.5s; }
+.s3 { animation: sparkAnim 1.5s infinite 1s; }
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-45deg); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+@keyframes sparkAnim {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(60px, -60px) scale(0); opacity: 0; }
+}
+
+
+/* Mobile Fix */
+@media (max-width: 600px) {
+  .deep-action-grid { grid-template-columns: 1fr; }
+}
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri</span>
+      </a>
+
+      <!-- Updated navigation: exactly Home Protocol Core Network Vision Features About Community Contact Whitepaper, with Whitepaper active and orange -->
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="whitepaper.html" class="active">Whitepaper</a>
+        <!-- Devs button removed as requested -->
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+
+    <div class="normal-links" style="margin-bottom: 20px;">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">
+          Introduction <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html" class="active">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CHAIN</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="chainToggle">
+          Chain <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="chainMenu">
+          <a href="protocol.html">Protocol</a>
+          <a href="vision.html">Vision</a>
+          <a href="network.html">Network</a>
+          <a href="core.html">Core</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">RESOURCES</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="resourcesToggle">
+          Resources <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="resourcesMenu">
+          <a href="exchanges.html">Exchanges</a>
+          <a href="community.html">Community</a>
+          <a href="documentation.html">Documentation</a>
+          <a href="vocabulary.html">Vocabulary</a>
+          <a href="events.html">Events</a>
+          <a href="core.html">Sahyadri Core</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INNOVATION</div>
+      <div class="normal-links">
+        <a href="innovation.html">Innovation</a>
+        <a href="participate.html">Participate</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CONNECT</div>
+      <div class="normal-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html">Developers</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- PAGE HEADER -->
+    <div class="container">
+      <div class="page-header animate">
+        <h1 class="page-title">HOW SAHYADRI <span>WORKS</span></h1>
+        <p class="page-subtitle">Decentralized Power. 1-Second Finality. Mathematical Autonomy.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 1: THE BASICS (3D Gateway) -->
+    <section class="section">
+      <div class="container">
+        <div class="section-grid">
+          <div class="section-content animate">
+            <h2 class="section-title">THE <span>BASICS</span></h2>
+            <p class="section-text">Getting started with Sahyadri is as simple as sending a message. Once you set up your $CSM Wallet, the network generates your unique cryptographic address. You can share this address to receive payments instantly. Unlike traditional systems, your Sahyadri address is your personal gateway to a global, borderless economy.</p>
+          </div>
+          <div class="animation-container animate delay-2">
+            <div class="gateway-container">
+              <div class="floating-phone">
+                <div class="phone-screen-glow">
+                  <div class="qr-code-3d"></div>
+                </div>
+              </div>
+              <div class="orbiting-particle particle1"></div>
+              <div class="orbiting-particle particle2"></div>
+              <div class="orbiting-particle particle3"></div>
+              <div class="orbiting-particle particle4"></div>
+              <div class="orbiting-particle particle5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE LEDGER (3D Block-DAG) -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-grid">
+          <div class="animation-container animate">
+            <div class="dag-3d-container">
+              <div class="dag-cube cube1">B1</div>
+              <div class="dag-cube cube2">B2</div>
+              <div class="dag-cube cube3">B3</div>
+              <div class="dag-cube cube4">B4</div>
+              <div class="dag-cube cube5">B5</div>
+              <div class="dag-connection connection1"></div>
+              <div class="dag-connection connection2"></div>
+              <div class="dag-connection connection3"></div>
+            </div>
+          </div>
+          <div class="section-content animate delay-2">
+            <h2 class="section-title">THE <span>LEDGER</span></h2>
+            <p class="section-text">At the heart of Sahyadri is a shared, immutable public ledger. Unlike linear blockchains, Sahyadri uses a Block-DAG architecture. This allows multiple blocks to be processed in parallel, ensuring that the network remains fast, scalable, and decentralized. Every transaction is chronologically ordered and verified by the entire network.</p>
+            <p class="section-text" style="color: var(--orange); font-weight: 600;">Sahyadri Consensus: Parallel Processing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: TRANSACTIONS (Cryptographic Proof - UPDATED) -->
+<section class="section">
+  <div class="container">
+    <div class="section-grid" style="grid-template-columns: 1fr;"> <div class="section-content animate" style="max-width: 800px; margin: 0 auto 40px; text-align: center;">
+        <h2 class="section-title"><span>CRYPTOGRAPHIC</span> PROOF</h2>
+        <p class="section-text">A transaction is a transfer of value secured by mathematics. Your wallet holds a Private Key used to sign your transactions, providing undeniable proof of ownership.</p>
+      </div>
+
+      <div class="proof-visual-wrapper animate delay-2">
+        <div class="horizontal-pipeline">
+          
+          <div class="tx-card" id="card1">
+            <div class="card-tag">SENDER</div>
+            <div class="card-icon">👤</div>
+            <div class="card-id">0x7F...3a2B</div>
+            <div class="card-status">Preparing...</div>
+          </div>
+
+          <div class="flow-arrow">→</div>
+
+          <div class="tx-card highlight" id="card2">
+            <div class="card-tag">ASSET</div>
+            <div class="card-icon csm-logo">⧫</div>
+            <div class="card-amount">1,250 CSM</div>
+            <div class="card-status">Signing...</div>
+          </div>
+
+          <div class="flow-arrow">→</div>
+
+          <div class="tx-card" id="card3">
+            <div class="card-tag">RECEIVER</div>
+            <div class="card-icon">📥</div>
+            <div class="card-id">0x8C...9f1D</div>
+            <div class="card-status">Pending...</div>
+          </div>
+
+        </div>
+
+        <div class="lock-mechanism" id="mainLock">
+          <div class="lock-icon-new">🔒</div>
+          <div class="lock-text">SECURED BY PRIVATE KEY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- SECTION 4: PROCESSING (Sahyadri Mining) -->
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-grid">
+          <div class="animation-container animate">
+            <div class="mining-3d">
+              <div class="mining-core"></div>
+              <div class="mining-ring"></div>
+              <div class="mining-particle"></div>
+              <div class="mining-particle"></div>
+              <div class="mining-particle"></div>
+            </div>
+          </div>
+          <div class="section-content animate delay-2">
+            <h2 class="section-title"><span>SAHYADRI</span> MINING</h2>
+            <p class="section-text light">Security is maintained through Mining—a distributed consensus system. Miners use the RandomX algorithm to solve complex puzzles, confirming pending transactions. This process protects the network's neutrality and ensures no single entity can alter the history. In Sahyadri, a new block is secured every 1 second, making it one of the fastest PoW networks in existence.</p>
+            <p style="color: var(--orange); font-size: 1.2rem;">1.0s Network Pulse</p>
+          </div>
+        </div>
+      </div>
+    <div class="cartoon-mine-container animate delay-2">
+      <div class="mine-shaft">
+        <div class="mining-block">
+          <span class="block-logo">⧫</span>
+          <div class="spark s1"></div>
+          <div class="spark s2"></div>
+          <div class="spark s3"></div>
+        </div>
+        <div class="pickaxe">⛏️</div>
+      </div>
+    </div>
+    </section>
+
+    <!-- SECTION 5: GOING DEEPER - UPDATED -->
+    <section class="section">
+      <div class="container">
+        <div class="section-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+          <h2 class="section-title">GOING <span>DEEPER</span></h2>
+          <p class="section-text" style="margin-bottom: 40px;">This is just the surface. To truly understand the power of the Sahyadri Consensus, explore our technical documentation, dive into the GitHub repository, or join our community of architects.</p>
+        </div>
+        
+        <!-- Animation above buttons -->
+        <div class="explore-animation animate delay-2">
+          <div class="explore-grid"></div>
+          <div class="explore-pulse"></div>
+          <div class="explore-docs">
+            <span></span>
+            <span style="animation-delay: 0.5s;"></span>
+            <span style="animation-delay: 1s;"></span>
+            <span style="margin-left: 10px; color: var(--orange);">EXPLORE</span>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="deep-dive-buttons">
+          <a href="documentation.html" class="deep-btn">Explore Documentation</a>
+          <a href="#" class="deep-btn">GitHub Repository</a>
+          <a href="#" class="deep-btn">Community Wiki</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Introduction -->
+        <div class="footer-col">
+          <h4 class="footer-title">Introduction</h4>
+          <ul class="footer-links">
+            <li><a href="individuals.html">Individuals</a></li>
+            <li><a href="businesses.html">Businesses</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="you-need-to-know.html">You need to know</a></li>
+            <li><a href="whitepaper.html">White paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Resources -->
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="exchanges.html">Exchanges</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="vocabulary.html">Vocabulary</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="core.html">Sahyadri Core</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Participate -->
+        <div class="footer-col">
+          <h4 class="footer-title">Participate</h4>
+          <ul class="footer-links">
+            <li><a href="support-sahyadri.html">Support Sahyadri</a></li>
+            <li><a href="buy.html">Buy Sahyadri</a></li>
+            <li><a href="sell.html">Sell Sahyadri</a></li>
+            <li><a href="full-node.html">Running a full node</a></li>
+            <li><a href="development.html">Development</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Other -->
+        <div class="footer-col">
+          <h4 class="footer-title">Other</h4>
+          <ul class="footer-links">
+            <li><a href="avoid-scams.html">Avoid Scams</a></li>
+            <li><a href="legal.html">Legal</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="about.html">About Sahyadri.org</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a>
+          <a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a>
+          <a href="https://github.com/sahyadri-core" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const closeMobile = document.getElementById('closeMobile');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Dropdown functionality - SIMPLE ARROW
+    const introToggle = document.getElementById('introToggle');
+    const introMenu = document.getElementById('introMenu');
+    const chainToggle = document.getElementById('chainToggle');
+    const chainMenu = document.getElementById('chainMenu');
+    const resourcesToggle = document.getElementById('resourcesToggle');
+    const resourcesMenu = document.getElementById('resourcesMenu');
+
+    function closeAllDropdowns() {
+      introMenu.classList.remove('open');
+      chainMenu.classList.remove('open');
+      resourcesMenu.classList.remove('open');
+      if (introToggle) introToggle.querySelector('.arrow').innerHTML = '▼';
+      if (chainToggle) chainToggle.querySelector('.arrow').innerHTML = '▼';
+      if (resourcesToggle) resourcesToggle.querySelector('.arrow').innerHTML = '▼';
+    }
+
+    if (introToggle) {
+      introToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = introMenu.classList.contains('open');
+        closeAllDropdowns();
+        if (!isOpen) {
+          introMenu.classList.add('open');
+          this.querySelector('.arrow').innerHTML = '▲';
+        }
+      });
+    }
+
+    if (chainToggle) {
+      chainToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = chainMenu.classList.contains('open');
+        closeAllDropdowns();
+        if (!isOpen) {
+          chainMenu.classList.add('open');
+          this.querySelector('.arrow').innerHTML = '▲';
+        }
+      });
+    }
+
+    if (resourcesToggle) {
+      resourcesToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = resourcesMenu.classList.contains('open');
+        closeAllDropdowns();
+        if (!isOpen) {
+          resourcesMenu.classList.add('open');
+          this.querySelector('.arrow').innerHTML = '▲';
+        }
+      });
+    }
+
+    // Transaction lock animation
+    const lock = document.getElementById('transactionLock');
+    const boxes = document.querySelectorAll('.tx-box');
+    
+    setInterval(() => {
+      // Phase 1: Boxes glow
+      boxes.forEach(box => {
+        box.style.boxShadow = '0 0 20px rgba(247,147,26,0.5)';
+      });
+      
+      // Phase 2: Lock after 1 second
+      setTimeout(() => {
+        lock.classList.add('locked');
+        
+        // Phase 3: Boxes change color
+        boxes.forEach(box => {
+          box.style.background = 'rgba(247,147,26,0.2)';
+          box.style.borderColor = 'var(--orange)';
+        });
+      }, 1000);
+      
+      // Reset after 3 seconds
+      setTimeout(() => {
+        lock.classList.remove('locked');
+        boxes.forEach(box => {
+          box.style.boxShadow = 'none';
+          box.style.background = 'linear-gradient(135deg, #2a2a2a, #1a1a1a)';
+          box.style.borderColor = 'var(--orange)';
+        });
+      }, 3000);
+    }, 4000);
+
+// Smart Transaction Pipeline Animation
+const cards = [document.getElementById('card1'), document.getElementById('card2'), document.getElementById('card3')];
+const mainLock = document.getElementById('mainLock').querySelector('.lock-icon-new');
+const lockText = document.querySelector('.lock-text');
+
+function runTransactionProcess() {
+    let step = 0;
+    
+    const interval = setInterval(() => {
+        // Reset all
+        cards.forEach(c => c.classList.remove('active-sign'));
+        
+        if (step < 3) {
+            // Highlight current step
+            cards[step].classList.add('active-sign');
+            cards[step].querySelector('.card-status').innerText = "Verifying...";
+            step++;
+        } else {
+            // Final Step: Lock everything
+            mainLock.innerText = "🔒";
+            mainLock.style.filter = "grayscale(0) drop-shadow(0 0 15px #F7931A)";
+            lockText.style.color = "var(--orange)";
+            lockText.innerText = "TRANSACTION IMMUTABLE";
+            
+            cards.forEach(c => {
+                c.classList.add('active-sign');
+                c.querySelector('.card-status').innerText = "SIGNED ✓";
+                c.querySelector('.card-status').style.color = "#4caf50";
+            });
+
+            clearInterval(interval);
+            
+            // Restart after 4 seconds
+            setTimeout(() => {
+                mainLock.style.filter = "grayscale(1)";
+                lockText.style.color = "#444";
+                lockText.innerText = "SECURED BY PRIVATE KEY";
+                cards.forEach(c => c.querySelector('.card-status').style.color = "var(--orange)");
+                runTransactionProcess();
+            }, 4000);
+        }
+    }, 1000);
+}
+
+runTransactionProcess();
+
+  </script>
+</body>
+</html>

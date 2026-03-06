@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahyadri — Core</title>
+  <meta name="description" content="Sahyadri Core — A high-throughput BlockDAG engine designed to solve the Scalability Trilemma without compromising security." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== SAME THEME AS INDEX ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #F7931A;
+      --orange-dark: #e06f00;
+      --orange-light: #fff1e0;
+      --steel-grey: #2a2a2a;
+      --steel-dark: #1a1a1a;
+      --steel-light: #3a3a3a;
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text: #0f0f0f;
+      --text-muted: #6b7a8f;
+      --border: #eaeef2;
+      --shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 30px 50px -20px rgba(247,147,26,0.15);
+      --radius: 20px;
+      --max-width: 1280px;
+      --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Monospaced font for tech elements */
+    .mono {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ========== HEADER ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-icon:hover {
+      transform: rotate(5deg) scale(1.03);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.2s;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--orange);
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600 !important;
+      box-shadow: 0 8px 16px -8px rgba(247,147,26,0.3);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    /* ========== HAMBURGER MENU ========== */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 201;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: -100vh;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #0a0a0a;
+      z-index: 200;
+      transition: top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-y: auto;
+      padding: 80px 40px 40px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .mobile-menu.open {
+      top: 0;
+    }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1a1a1a;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 202;
+    }
+
+    .mobile-close:hover {
+      background: var(--orange);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .mobile-nav-section {
+      margin-bottom: 28px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mobile-nav-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s;
+    }
+
+    .dropdown-toggle .arrow {
+      color: white; 
+      transition: none !important;
+      animation: none !important;
+      margin-left: 8px;
+    }
+
+    .dropdown-toggle.active-toggle {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle.active-toggle .arrow {
+      color: var(--orange) !important;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--orange);
+    }
+
+    .dropdown-menu {
+      display: none;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--orange);
+      color: white;
+    }
+
+    .normal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .normal-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .normal-links a:hover {
+      color: var(--orange);
+      padding-left: 8px;
+    }
+
+    .normal-links:first-of-type a {
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ========== PAGE HEADER ========== */
+    .page-header {
+      padding: 40px 0 20px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .page-title span {
+      color: var(--orange);
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ========== HERO TERMINAL ========== */
+    .terminal-hero {
+      background: var(--steel-dark);
+      border-radius: 32px;
+      padding: 40px;
+      margin: 40px 0;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--steel-light);
+    }
+
+    .terminal-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .terminal-text {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #00ff00;
+      margin-bottom: 20px;
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      animation: terminalFade 0.5s ease-out;
+    }
+
+    .terminal-prompt {
+      color: var(--orange);
+    }
+
+    @keyframes terminalFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-main-text {
+      margin-top: 30px;
+      border-top: 1px solid var(--steel-light);
+      padding-top: 30px;
+    }
+
+    .hero-main-text h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .hero-main-text h2 span {
+      color: var(--orange);
+    }
+
+    .hero-main-text p {
+      color: #aaa;
+      font-size: 1.2rem;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* ========== DAG LEDGER ========== */
+    .dag-section {
+      padding: 60px 0;
+    }
+
+    .dag-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .dag-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .dag-content h3 span {
+      color: var(--orange);
+    }
+
+    .dag-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .dag-highlights {
+      margin-top: 30px;
+    }
+
+    .dag-highlight {
+      margin-bottom: 20px;
+      padding-left: 20px;
+      border-left: 3px solid var(--orange);
+    }
+
+    .dag-highlight h4 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .dag-highlight p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    /* DAG Diagram */
+    .dag-diagram {
+      background: var(--bg-alt);
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 400px;
+    }
+
+    .dag-dots {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dag-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--orange-light);
+      border: 3px solid var(--orange);
+      border-radius: 50%;
+      animation: dagPulse 3s ease-in-out infinite;
+    }
+
+    .dot1 { top: 20%; left: 20%; animation-delay: 0s; }
+    .dot2 { top: 40%; left: 50%; animation-delay: 0.3s; }
+    .dot3 { top: 70%; left: 30%; animation-delay: 0.6s; }
+    .dot4 { top: 30%; left: 70%; animation-delay: 0.9s; }
+    .dot5 { top: 60%; left: 80%; animation-delay: 1.2s; }
+
+    .dag-connection {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+      transform-origin: left center;
+    }
+
+    .conn1 { width: 120px; top: 25%; left: 22%; transform: rotate(30deg); }
+    .conn2 { width: 150px; top: 45%; left: 45%; transform: rotate(45deg); }
+    .conn3 { width: 100px; top: 65%; left: 35%; transform: rotate(60deg); }
+    .conn4 { width: 130px; top: 35%; left: 65%; transform: rotate(-30deg); }
+
+    .linear-chain {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      height: 40px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .linear-block {
+      width: 20px;
+      height: 20px;
+      background: #ccc;
+      margin-right: 5px;
+      border-radius: 4px;
+    }
+
+    .linear-block.active {
+      background: var(--orange);
+      animation: blockPulse 1s infinite;
+    }
+
+    @keyframes blockPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ========== THREE PILLARS ========== */
+    .pillars-section {
+      background: var(--bg-alt);
+      padding: 60px 0;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .pillar-card {
+      background: white;
+      border-radius: 24px;
+      padding: 40px 30px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--orange);
+    }
+
+    .pillar-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--orange);
+      opacity: 0.2;
+      margin-bottom: 10px;
+    }
+
+    .pillar-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .pillar-desc {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .pillar-visual {
+      width: 100%;
+      height: 60px;
+      position: relative;
+    }
+
+    .pow-visual {
+      width: 40px;
+      height: 40px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: powPulse 2s ease-in-out infinite;
+    }
+
+    .pos-visual {
+      width: 60px;
+      height: 60px;
+      border: 3px solid var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: posRotate 4s linear infinite;
+    }
+
+    .difficulty-visual {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .diff-bar {
+      width: 15px;
+      height: 40px;
+      background: var(--orange-light);
+      border: 1px solid var(--orange);
+      animation: diffPulse 2s ease-in-out infinite;
+    }
+
+    .diff-bar:nth-child(1) { height: 30px; animation-delay: 0s; }
+    .diff-bar:nth-child(2) { height: 50px; animation-delay: 0.2s; }
+    .diff-bar:nth-child(3) { height: 40px; animation-delay: 0.4s; }
+    .diff-bar:nth-child(4) { height: 60px; animation-delay: 0.6s; }
+
+    @keyframes powPulse {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+      50% { transform: translateX(-50%) scale(1.2); opacity: 0.7; }
+    }
+
+    @keyframes posRotate {
+      0% { transform: translateX(-50%) rotate(0deg); }
+      100% { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    @keyframes diffPulse {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(1.2); }
+    }
+
+    /* ========== NETWORK TOPOLOGY ========== */
+    .network-section {
+      padding: 60px 0;
+    }
+
+    .network-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .network-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .network-content h3 span {
+      color: var(--orange);
+    }
+
+    .network-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .network-note {
+      background: var(--bg-alt);
+      border-left: 4px solid var(--orange);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+    }
+
+    .network-note p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .network-visual {
+      background: var(--steel-dark);
+      border-radius: 24px;
+      padding: 40px;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mesh-node {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: meshPulse 3s ease-in-out infinite;
+    }
+
+    .mesh-node1 { top: 20%; left: 30%; }
+    .mesh-node2 { top: 50%; left: 60%; }
+    .mesh-node3 { top: 70%; left: 20%; }
+    .mesh-node4 { top: 30%; left: 70%; }
+    .mesh-node5 { top: 80%; left: 50%; }
+
+    .mesh-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+      transform-origin: left center;
+    }
+
+    .mesh-line1 { width: 150px; top: 22%; left: 32%; transform: rotate(30deg); }
+    .mesh-line2 { width: 180px; top: 52%; left: 55%; transform: rotate(-20deg); }
+    .mesh-line3 { width: 120px; top: 72%; left: 22%; transform: rotate(45deg); }
+    .mesh-line4 { width: 200px; top: 32%; left: 65%; transform: rotate(-15deg); }
+
+    .ripple-effect {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--orange);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      animation: ripple 3s ease-out infinite;
+    }
+
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(20); opacity: 0; }
+    }
+
+    @keyframes meshPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.7; }
+    }
+
+    /* ========== SMART EXECUTION ========== */
+    .execution-section {
+      background: var(--bg-alt);
+      padding: 60px 0;
+    }
+
+    .execution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .execution-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .execution-content h3 span {
+      color: var(--orange);
+    }
+
+    .execution-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .parallel-visual {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid var(--border);
+    }
+
+    .parallel-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .parallel-block {
+      height: 40px;
+      flex: 1;
+      background: var(--orange-light);
+      border: 2px solid var(--orange);
+      border-radius: 8px;
+      animation: parallelFlow 2s ease-in-out infinite;
+    }
+
+    .parallel-block:nth-child(2) { animation-delay: 0.3s; }
+    .parallel-block:nth-child(3) { animation-delay: 0.6s; }
+
+    .ethereum-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .eth-block {
+      height: 40px;
+      width: 40px;
+      background: #ccc;
+      border-radius: 8px;
+      animation: sequentialFlow 3s linear infinite;
+    }
+
+    @keyframes parallelFlow {
+      0%, 100% { transform: scaleY(1); background: var(--orange-light); }
+      50% { transform: scaleY(1.3); background: var(--orange); }
+    }
+
+    @keyframes sequentialFlow {
+      0% { opacity: 0.3; }
+      20% { opacity: 1; }
+      40% { opacity: 0.3; }
+      100% { opacity: 0.3; }
+    }
+
+    /* ========== SECURITY AUDITS ========== */
+    .security-section {
+      padding: 60px 0;
+    }
+
+    .security-box {
+      background: var(--steel-dark);
+      border-radius: 32px;
+      padding: 50px;
+      color: white;
+    }
+
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .security-item {
+      padding: 30px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+
+    .security-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--orange);
+    }
+
+    .security-item h4 {
+      color: var(--orange);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .security-item p {
+      color: #aaa;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .security-tag {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 5px 10px;
+      background: rgba(247,147,26,0.1);
+      border: 1px solid rgba(247,147,26,0.3);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--orange);
+    }
+
+    /* ========== NODE REQUIREMENTS ========== */
+    .requirements-section {
+      padding: 60px 0;
+      background: var(--bg-alt);
+    }
+
+    .requirements-table {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-row.header {
+      background: var(--orange-light);
+      font-weight: 700;
+      color: var(--orange-dark);
+    }
+
+    .table-cell {
+      padding: 20px;
+    }
+
+    .table-cell:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    .node-type {
+      font-weight: 600;
+    }
+
+    .node-specs {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--orange);
+    }
+
+    .node-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ========== CTA SECTION ========== */
+    .cta-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-content h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      padding: 15px 30px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .cta-btn.primary {
+      background: var(--orange);
+      color: white;
+    }
+
+    .cta-btn.primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .cta-btn.secondary {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--text);
+    }
+
+    .cta-btn.secondary:hover {
+      background: var(--orange);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== FOOTER ========== */
+    .site-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .site-footer .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-col {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
+    .footer-links a:hover {
+      color: #F7931A;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover {
+      color: #F7931A;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1000px) {
+      .nav {
+        display: none;
+      }
+      
+      .nav-toggle {
+        display: block;
+      }
+      
+      .dag-grid,
+      .network-grid,
+      .execution-grid,
+      .pillars-grid,
+      .security-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .table-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-cell {
+        border-right: none !important;
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .table-row.header {
+        display: none;
+      }
+      
+      .footer-col {
+        flex: 0 0 calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-main-text h2 {
+        font-size: 2rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .cta-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .footer-col {
+        flex: 0 0 100%;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .mobile-menu {
+        padding: 80px 20px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">
+          <img src="https://raw.githubusercontent.com/surajdatir/sahyadri/refs/heads/main/IMG_2305.png" alt="Sahyadri Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=\'22\' height=\'22\' viewBox=\'0 0 24 24\'><path d=\'M2 8l3.5 8h13L22 8l-5 3-3-6-3 6-3-6-5 3z\' fill=\'white\'/></svg>'">
+        </span>
+        <span class="logo-text">Sahyadri Consensus</span>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="protocol.html">Protocol</a>
+        <a href="core.html" class="active">Core</a>
+        <a href="network.html">Network</a>
+        <a href="vision.html">Vision</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html" class="nav-cta">Devs</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMobile">×</button>
+
+    <div class="normal-links" style="margin-bottom: 20px;">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INTRODUCTION</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="introToggle">
+          Introduction <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="introMenu">
+          <a href="individuals.html">Individuals</a>
+          <a href="businesses.html">Businesses</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="whitepaper.html">White paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CHAIN</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="chainToggle">
+          Chain <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="chainMenu">
+          <a href="protocol.html">Protocol</a>
+          <a href="vision.html">Vision</a>
+          <a href="network.html">Network</a>
+          <a href="core.html" class="active">Core</a>
+          <a href="roadmap.html">Roadmap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">RESOURCES</div>
+      <div class="dropdown">
+        <button class="dropdown-toggle" id="resourcesToggle">
+          Resources <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" id="resourcesMenu">
+          <a href="exchanges.html">Exchanges</a>
+          <a href="community.html">Community</a>
+          <a href="documentation.html">Documentation</a>
+          <a href="vocabulary.html">Vocabulary</a>
+          <a href="events.html">Events</a>
+          <a href="core.html">Sahyadri Core</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">INNOVATION</div>
+      <div class="normal-links">
+        <a href="innovation.html">Innovation</a>
+        <a href="participate.html">Participate</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-title">CONNECT</div>
+      <div class="normal-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="developers.html">Developers</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- PAGE HEADER -->
+    <div class="container">
+      <div class="page-header animate">
+        <h1 class="page-title">Sahyadri <span>Core</span></h1>
+        <p class="page-subtitle">The Mathematics of Trust — A high-throughput, decentralized engine designed to solve the Scalability Trilemma.</p>
+      </div>
+    </div>
+
+    <!-- HERO TERMINAL -->
+    <div class="container">
+      <div class="terminal-hero animate delay-1">
+        <div class="terminal-content">
+          <div class="terminal-text" id="terminal">
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Initializing Sahyadri Core v1.0.0...</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Loading consensus modules...</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Consensus engine: ACTIVE</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Node connected to 1,247 peers</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Consensus syncing: 99.8% complete</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Block height: 1,024,567</div>
+            <div class="terminal-line"><span class="terminal-prompt">$</span> Network hash rate: 847 TH/s</div>
+          </div>
+          <div class="hero-main-text">
+            <h2>The <span>Mathematics</span> of Trust</h2>
+            <p>Sahyadri Core is a high-throughput, decentralized engine designed to solve the Scalability Trilemma without compromising on security.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE DAG LEDGER -->
+    <div class="dag-section">
+      <div class="container">
+        <div class="dag-grid">
+          <div class="dag-content animate">
+            <h3>The <span>DAG</span> Ledger</h3>
+            <p>Unlike traditional blockchains that process one block at a time (Linear Chain), Sahyadri Core utilizes a Directed Acyclic Graph (DAG). This allows multiple blocks to be mined and validated simultaneously — fundamentally redefining what's possible in decentralized systems.</p>
+            <div class="dag-highlights">
+              <div class="dag-highlight">
+                <h4>Sahyadri Consensus</h4>
+                <p>Our proprietary consensus ordering algorithm ensures that every block has a unique, deterministic position in history — even when blocks are created in parallel. Each new block references multiple parents, creating a rich topological structure that maintains total ordering without sacrificing parallelism.</p>
+              </div>
+              <div class="dag-highlight">
+                <h4>Conflict Resolution</h4>
+                <p>Mathematical consensus determines transaction order with 100% certainty through our "Multi-Parent Chain Selection" algorithm. The consensus structure itself prevents double-spends through cryptographic linking and cumulative weight calculations.</p>
+              </div>
+            </div>
+          </div>
+          <div class="dag-diagram animate delay-2">
+            <div class="dag-dots">
+              <div class="dag-dot dot1"></div>
+              <div class="dag-dot dot2"></div>
+              <div class="dag-dot dot3"></div>
+              <div class="dag-dot dot4"></div>
+              <div class="dag-dot dot5"></div>
+              <div class="dag-connection conn1"></div>
+              <div class="dag-connection conn2"></div>
+              <div class="dag-connection conn3"></div>
+              <div class="dag-connection conn4"></div>
+            </div>
+            <div class="linear-chain">
+              <div class="linear-block"></div>
+              <div class="linear-block"></div>
+              <div class="linear-block active"></div>
+              <div class="linear-block"></div>
+              <div class="linear-block"></div>
+              <span style="margin-left: auto; color: #999; font-size: 0.8rem;">Linear Chain →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THREE PILLARS -->
+    <div class="pillars-section">
+      <div class="container">
+        <div class="tech-header animate" style="text-align: center;">
+          <h2>Consensus <span>Mechanism</span></h2>
+          <p style="max-width: 700px; margin: 0 auto;">Three layers working in harmony to deliver security, speed, and adaptability.</p>
+        </div>
+        <div class="pillars-grid">
+          <!-- Pillar 1: Proof of Work -->
+          <div class="pillar-card animate delay-1">
+            <div class="pillar-number">01</div>
+            <h3 class="pillar-title">Proof-of-Work</h3>
+            <p class="pillar-desc">The network is secured by a lightweight, ASIC-resistant hashing algorithm optimized for both CPU and GPU hardware. This ensures that anyone with a standard computer or graphics card can participate in securing the network, preventing mining monopolies and maintaining true decentralization.</p>
+            <div class="pillar-visual">
+              <div class="pow-visual"></div>
+            </div>
+          </div>
+          <!-- Pillar 2: Finality Layer -->
+          <div class="pillar-card animate delay-2">
+            <div class="pillar-number">02</div>
+            <h3 class="pillar-title">The Finality Layer</h3>
+            <p class="pillar-desc">Transactions reach mathematical finality within seconds through the DAG structure itself. The parallel chain architecture ensures that once a block is referenced by subsequent blocks, it becomes permanently settled — no additional layers needed.</p>
+            <div class="pillar-visual">
+              <div class="pos-visual"></div>
+            </div>
+          </div>
+          <!-- Pillar 3: Adaptive Difficulty -->
+          <div class="pillar-card animate delay-3">
+            <div class="pillar-number">03</div>
+            <h3 class="pillar-title">Adaptive Difficulty</h3>
+            <p class="pillar-desc">The network adjusts its mining difficulty in real-time based on the global hash rate to maintain a steady 5-10 second block interval. This ensures predictable block times regardless of network participation.</p>
+            <div class="pillar-visual">
+              <div class="difficulty-visual">
+                <div class="diff-bar"></div>
+                <div class="diff-bar"></div>
+                <div class="diff-bar"></div>
+                <div class="diff-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NETWORK TOPOLOGY -->
+    <div class="network-section">
+      <div class="container">
+        <div class="network-grid">
+          <div class="network-visual animate">
+            <div class="mesh-node mesh-node1"></div>
+            <div class="mesh-node mesh-node2"></div>
+            <div class="mesh-node mesh-node3"></div>
+            <div class="mesh-node mesh-node4"></div>
+            <div class="mesh-node mesh-node5"></div>
+            <div class="mesh-line mesh-line1"></div>
+            <div class="mesh-line mesh-line2"></div>
+            <div class="mesh-line mesh-line3"></div>
+            <div class="mesh-line mesh-line4"></div>
+            <div class="ripple-effect"></div>
+          </div>
+          <div class="network-content animate delay-2">
+            <h3>Network <span>Topology</span></h3>
+            <p>Sahyadri uses an advanced P2P gossip protocol. Information spreads through the network like a ripple in water, ensuring that every node is updated within milliseconds.</p>
+            <p>The protocol reduces data overhead by 40% compared to standard blockchains, allowing nodes to run on low-bandwidth connections while maintaining full network participation.</p>
+            <div class="network-note">
+              <p class="mono">Propagation time: 180-220ms · Redundancy factor: 3x · Max peers: 64</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMART EXECUTION LAYER -->
+    <div class="execution-section">
+      <div class="container">
+        <div class="execution-grid">
+          <div class="execution-content animate">
+            <h3>Smart <span>Execution Layer</span></h3>
+            <p>Core is not just for moving value — it's for executing logic. We are building a highly optimized execution environment that supports high-speed smart contracts.</p>
+            <p>By leveraging the parallel nature of its consensus design, Sahyadri can process multiple transactions and execution flows simultaneously. Traditional blockchains process transactions sequentially — one after another. Sahyadri’s parallel architecture enables true concurrency, resulting in higher throughput, lower latency, and faster finality.</p>
+          </div>
+          <div class="parallel-visual animate delay-2">
+            <div class="parallel-row">
+              <div class="parallel-block"></div>
+              <div class="parallel-block"></div>
+              <div class="parallel-block"></div>
+            </div>
+            <div class="parallel-row">
+              <div class="parallel-block"></div>
+              <div class="parallel-block"></div>
+              <div class="parallel-block"></div>
+            </div>
+            <div class="ethereum-row" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+              <div class="eth-block"></div>
+              <div class="eth-block"></div>
+              <div class="eth-block"></div>
+              <span style="margin-left: auto; color: #999; font-size: 0.8rem;">Sequential (Ethereum)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY AUDITS -->
+    <div class="security-section">
+      <div class="container">
+        <div class="security-box animate">
+          <h3 style="font-size: 2rem; text-align: center;">Security & <span style="color: var(--orange);">Cryptography</span></h3>
+          <div class="security-grid">
+            <div class="security-item">
+              <h4>Encryption</h4>
+              <p>Industry-standard secp256k1 and Ed25519 curves are used for digital signatures.
+The hashing layer is designed with a forward-compatible upgrade path toward post-quantum cryptography as standardized algorithms mature.</p>
+              <div class="security-tag">SECP256K1 · Ed25519</div>
+            </div>
+            <div class="security-item">
+              <h4>Immutability</h4>
+              <p>Once a block reaches sufficient confirmation depth (≥12 blocks), it becomes computationally impractical to alter.
+The DAG-based structure further strengthens immutability by referencing multiple parent blocks, increasing the cost of reorganization as confirmations grow.</p>
+              <div class="security-tag">Confirmation Depth: 12</div>
+            </div>
+            <div class="security-item">
+              <h4>DDoS Protection</h4>
+              <p>Sahyadri implements native throttling at the node level to mitigate spam and denial-of-service attacks. Adaptive rate limiting is applied based on peer behavior, with optional proof-of-work required for transaction submission during periods of high network load.</p>
+              <div class="security-tag">Rate Limit: 100 tx/sec</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE REQUIREMENTS -->
+    <div class="requirements-section">
+      <div class="container">
+        <div class="tech-header animate" style="text-align: center;">
+          <h2>Node <span>Requirements</span></h2>
+          <p>Sahyadri nodes are designed to run across a wide range of hardware, from low-power devices to enterprise-grade infrastructure.
+</p>
+        </div>
+        <div class="requirements-table animate delay-2">
+          <div class="table-row header">
+            <div class="table-cell">Node Type</div>
+            <div class="table-cell">Specifications</div>
+            <div class="table-cell">Use Case</div>
+          </div>
+          <div class="table-row">
+            <div class="table-cell node-type">Lite Node</div>
+            <div class="table-cell node-specs">2GB RAM · 1 vCPU · 50GB SSD</div>
+            <div class="table-cell node-desc">Light clients, mobile wallets, read-only access, and IoT integrations</div>
+          </div>
+          <div class="table-row">
+            <div class="table-cell node-type">Full Node</div>
+            <div class="table-cell node-specs">8GB RAM · 4 vCPU · 500GB SSD</div>
+            <div class="table-cell node-desc">Miners, full network participants, and independent verifiers</div>
+          </div>
+          <div class="table-row">
+            <div class="table-cell node-type">Archive Node</div>
+            <div class="table-cell node-specs">32GB+ RAM · 8 vCPU · 2TB+ SSD</div>
+            <div class="table-cell node-desc">Block explorers, exchanges, research institutions, and long-term archival services</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA SECTION -->
+    <div class="cta-section">
+      <div class="container">
+        <div class="cta-content animate">
+          <h3>Want to see the <span>gears turning?</span></h3>
+          <p>Dive into the code, read the technical specifications, or join our developer community.</p>
+          <div class="cta-buttons">
+            <a href="https://www.github.com/sahyadri-core/sahyadri" class="cta-btn primary">View GitHub Repository</a>
+            <a href="#" class="cta-btn secondary">Technical Whitepaper</a>
+            <a href="https://discord.gg/vnehg5SFU" class="cta-btn secondary">Join Dev Discord</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Introduction -->
+        <div class="footer-col">
+          <h4 class="footer-title">Introduction</h4>
+          <ul class="footer-links">
+            <li><a href="individuals.html">Individuals</a></li>
+            <li><a href="businesses.html">Businesses</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="you-need-to-know.html">You need to know</a></li>
+            <li><a href="whitepaper.html">White paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Resources -->
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="exchanges.html">Exchanges</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="vocabulary.html">Vocabulary</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="core.html">Sahyadri Core</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Participate -->
+        <div class="footer-col">
+          <h4 class="footer-title">Participate</h4>
+          <ul class="footer-links">
+            <li><a href="support-sahyadri.html">Support Sahyadri</a></li>
+            <li><a href="buy.html">Buy Sahyadri</a></li>
+            <li><a href="sell.html">Sell Sahyadri</a></li>
+            <li><a href="full-node.html">Running a full node</a></li>
+            <li><a href="development.html">Development</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Other -->
+        <div class="footer-col">
+          <h4 class="footer-title">Other</h4>
+          <ul class="footer-links">
+            <li><a href="avoid-scams.html">Avoid Scams</a></li>
+            <li><a href="legal.html">Legal</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="about.html">About Sahyadri.org</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2026 Sahyadri.org. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="https://x.com/sahyadricore?s=21" target="_blank">𝕏</a>
+          <a href="https://discord.gg/vnehg5SFU" target="_blank">Discord</a>
+          <a href="https://github.com/sahyadri-core" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const closeMobile = document.getElementById('closeMobile');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    navToggle.addEventListener('click', openMobile);
+    closeMobile.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.normal-links a, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Dropdown functionality
+    const introToggle = document.getElementById('introToggle');
+    const introMenu = document.getElementById('introMenu');
+    const chainToggle = document.getElementById('chainToggle');
+    const chainMenu = document.getElementById('chainMenu');
+    const resourcesToggle = document.getElementById('resourcesToggle');
+    const resourcesMenu = document.getElementById('resourcesMenu');
+
+    function closeAllDropdowns() {
+      introMenu.classList.remove('open');
+      chainMenu.classList.remove('open');
+      resourcesMenu.classList.remove('open');
+      
+      introToggle.classList.remove('active-toggle');
+      chainToggle.classList.remove('active-toggle');
+      resourcesToggle.classList.remove('active-toggle');
+    }
+
+    function handleToggle(toggleElement, menuElement) {
+      toggleElement.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = menuElement.classList.contains('open');
+        
+        closeAllDropdowns();
+        
+        if (!isOpen) {
+          menuElement.classList.add('open');
+          toggleElement.classList.add('active-toggle');
+        }
+      });
+    }
+
+    handleToggle(introToggle, introMenu);
+    handleToggle(chainToggle, chainMenu);
+    handleToggle(resourcesToggle, resourcesMenu);
+
+    // Terminal animation
+    const terminal = document.getElementById('terminal');
+    const lines = terminal.children;
+    let index = 0;
+
+    function animateTerminal() {
+      for (let i = 0; i < lines.length; i++) {
+        lines[i].style.animation = 'none';
+        lines[i].offsetHeight;
+        lines[i].style.animation = 'terminalFade 0.5s ease-out';
+        lines[i].style.animationDelay = i * 0.2 + 's';
+      }
+    }
+
+    setInterval(animateTerminal, 8000);
+    animateTerminal();
+
+    // Ripple effect
+    const ripple = document.querySelector('.ripple-effect');
+    setInterval(() => {
+      ripple.style.animation = 'none';
+      ripple.offsetHeight;
+      ripple.style.animation = 'ripple 3s ease-out infinite';
+    }, 5000);
+  </script>
+</body>
+</html>
